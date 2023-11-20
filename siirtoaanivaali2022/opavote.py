@@ -1,7 +1,10 @@
+from Ehdokkaat import Ehdokkaat
+
+
 def opavoteTest():
     return "OpaVote says hello!"
 
-def luo_lipukkeet(tiedosto: str):
+def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat):
     with open(tiedosto) as tiedosto:
         tila = "ekarivi"
         laskuri = 1
@@ -13,6 +16,7 @@ def luo_lipukkeet(tiedosto: str):
                 osat = rivi.split(" ")
                 ehdokas_lkm = int(osat[0])
                 # TODO: lisää ehdokkaat listaan
+                ehdokkaat.lisaa_ehdokkaat(ehdokas_lkm)
                 valittavat_lkm = int(osat[1])
                 tila = "lipukkeet"
             elif tila == "lipukkeet":
@@ -34,4 +38,5 @@ def luo_lipukkeet(tiedosto: str):
                     # TODO: tallenna vaalin nimi sopivaan paikkaan
 
 if __name__ == "__main__":
-    luo_lipukkeet("testivaali.txt")
+    ehdokaslista = Ehdokkaat()
+    luo_lipukkeet("testivaali.txt", ehdokaslista)
