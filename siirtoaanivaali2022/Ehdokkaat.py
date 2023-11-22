@@ -8,6 +8,9 @@ class Ehdokkaat:
     def lisaa_ehdokkaat(self, ehdokkaat_lkm : int):
         for n in range(ehdokkaat_lkm):
             self.ehdokkaat[n+1] = Ehdokas(n+1)
+
+    def hae_ehdokas(self, ehdokas_nro : int):
+        return self.ehdokkaat[ehdokas_nro]
     
     def __str__(self) -> str:
         mjono = ""
@@ -20,3 +23,4 @@ if __name__ == "__main__":
     ehdokaslista = Ehdokkaat()
     ehdokaslista.lisaa_ehdokkaat(2)
     print(ehdokaslista)
+    print(ehdokaslista.hae_ehdokas(1))
