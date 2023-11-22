@@ -24,20 +24,18 @@ def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat, lipukkeet : Lipukkeet):
                 if osat[0] == '0':
                     tila = "ehdokkaat"
                 else:
-                    print(osat[1:-1])
                     # tee numerolistan pohjalta ehdokaslista
                     ehdokaslista = []
                     for ehdokas_nro in osat[1:-1]:
                         ehdokaslista.append(ehdokkaat.hae_ehdokas(int(ehdokas_nro)))
-                    # TODO: luo lipuke listaan
-                    # TODO: luo lipukerivit lipukkeelle
+                    # luo lipuke listaan
+                    # luo lipukerivit lipukkeelle
                     lipukelista.lisaa_lipuke(Lipuke(ehdokaslista))
-
-                    # lipuketta luodessa anna paremetrina ehdokkaat järjestyksessä
             elif tila == "ehdokkaat":
                 if laskuri <= ehdokas_lkm:
                     print(f"{laskuri} {rivi}")
-                    # TODO: lisää ehdokkaalle nimi
+                    # lisää ehdokkaalle nimi
+                    ehdokkaat.hae_ehdokas(laskuri).set_nimi(rivi.strip('"'))
                     laskuri = laskuri + 1
                 else:
                     print("Vaalin nimi: " + rivi.strip('"'))
