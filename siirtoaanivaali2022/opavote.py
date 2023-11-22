@@ -1,5 +1,6 @@
 from Ehdokkaat import Ehdokkaat
 from lipukkeet import Lipukkeet
+from Lipuke import Lipuke
 
 
 def opavoteTest():
@@ -24,9 +25,14 @@ def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat, lipukkeet : Lipukkeet):
                     tila = "ehdokkaat"
                 else:
                     print(osat[1:-1])
-                    # TODO: tee numerolistan pohjalta ehdokaslista
+                    # tee numerolistan pohjalta ehdokaslista
+                    ehdokaslista = []
+                    for ehdokas_nro in osat[1:-1]:
+                        ehdokaslista.append(ehdokkaat.hae_ehdokas(int(ehdokas_nro)))
                     # TODO: luo lipuke listaan
                     # TODO: luo lipukerivit lipukkeelle
+                    lipukelista.lisaa_lipuke(Lipuke(ehdokaslista))
+
                     # lipuketta luodessa anna paremetrina ehdokkaat järjestyksessä
             elif tila == "ehdokkaat":
                 if laskuri <= ehdokas_lkm:
@@ -39,4 +45,7 @@ def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat, lipukkeet : Lipukkeet):
 
 if __name__ == "__main__":
     ehdokaslista = Ehdokkaat()
-    luo_lipukkeet("testivaali.txt", ehdokaslista)
+    lipukelista = Lipukkeet()
+    luo_lipukkeet("testivaali.txt", ehdokaslista, lipukelista)
+    print(ehdokaslista)
+    print(lipukelista)
