@@ -1,12 +1,13 @@
 from Ehdokkaat import Ehdokkaat
 from lipukkeet import Lipukkeet
 from Lipuke import Lipuke
+from vaali import Vaali
 
 
 def opavoteTest():
     return "OpaVote says hello!"
 
-def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat, lipukkeet : Lipukkeet):
+def luo_lipukkeet(tiedosto: str, vaali : Vaali):
     with open(tiedosto) as tiedosto:
         tila = "ekarivi"
         laskuri = 1
@@ -16,8 +17,8 @@ def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat, lipukkeet : Lipukkeet):
                 osat = rivi.split(" ")
                 ehdokas_lkm = int(osat[0])
                 # lisää ehdokkaat listaan
-                ehdokkaat.lisaa_ehdokkaat(ehdokas_lkm)
-                valittavat_lkm = int(osat[1])
+                vaali.hae_ehdokkaat().lisaa_ehdokkaat(ehdokas_lkm)
+                vaali.aseta_valittavien_lkm(int(osat[1]))
                 tila = "lipukkeet"
             elif tila == "lipukkeet":
                 osat = rivi.split(" ")
@@ -27,23 +28,21 @@ def luo_lipukkeet(tiedosto: str, ehdokkaat : Ehdokkaat, lipukkeet : Lipukkeet):
                     # tee numerolistan pohjalta ehdokaslista
                     ehdokaslista = []
                     for ehdokas_nro in osat[1:-1]:
-                        ehdokaslista.append(ehdokkaat.hae_ehdokas(int(ehdokas_nro)))
+                        ehdokaslista.append(vaali.hae_ehdokkaat().hae_ehdokas(int(ehdokas_nro)))
                     # luo lipuke listaan
                     # luo lipukerivit lipukkeelle
-                    lipukelista.lisaa_lipuke(Lipuke(ehdokaslista))
+                    vaali.hae_lipukkeet().lisaa_lipuke(Lipuke(ehdokaslista))
             elif tila == "ehdokkaat":
                 if laskuri <= ehdokas_lkm:
-                    print(f"{laskuri} {rivi}")
                     # lisää ehdokkaalle nimi
-                    ehdokkaat.hae_ehdokas(laskuri).set_nimi(rivi.strip('"'))
+                    vaali.hae_ehdokkaat().hae_ehdokas(laskuri).set_nimi(rivi.strip('"'))
                     laskuri = laskuri + 1
                 else:
-                    print("Vaalin nimi: " + rivi.strip('"'))
-                    # TODO: tallenna vaalin nimi sopivaan paikkaan
+                    # tallenna vaalin nimi sopivaan paikkaan
+                    vaali.aseta_vaalin_nimi(rivi.strip('"'))
 
 if __name__ == "__main__":
-    ehdokaslista = Ehdokkaat()
-    lipukelista = Lipukkeet()
-    luo_lipukkeet("testivaali.txt", ehdokaslista, lipukelista)
-    print(ehdokaslista)
-    print(lipukelista)
+    vaali = Vaali()
+    luo_lipukkeet("testivaali.txt", vaali)
+    print(vaali.hae_ehdokkaat())
+    print(vaali.hae_lipukkeet())
