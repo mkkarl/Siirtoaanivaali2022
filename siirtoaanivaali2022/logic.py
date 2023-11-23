@@ -29,6 +29,10 @@ print(f"äänihukka: {aanihukka}")
 
 #   3. Äänikynnys update
 
+aanikynnys = (vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() - aanihukka) / vaali.hae_valittavien_lkm()
+
+print(f"äänikynnys: {aanikynnys}")
+
 #   4. Ehdokas:Ehdokkaat ehdokas.updateP
 
 #   Ehdokkaat valitse äänikynnyksen ylittäneet tai pudota vähiten ääniä saanut

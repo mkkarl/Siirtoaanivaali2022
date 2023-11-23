@@ -27,6 +27,10 @@ class Lipukkeet:
 
         return aanihukka
     
+    def hyvaksytyt_aanet_lkm(self):
+        # TODO: hyväksyttyjen äänien validointi
+        return len(self.lipukkeet)
+    
     def __str__(self) -> str:
         mjono = ""
         n = 1

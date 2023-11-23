@@ -26,3 +26,6 @@ class Vaali:
 
     def aseta_valittavien_lkm(self, valittavien_lkm : int):
         self.valittavien_lkm = valittavien_lkm
+
+    def hae_valittavien_lkm(self):
+        return self.valittavien_lkm
