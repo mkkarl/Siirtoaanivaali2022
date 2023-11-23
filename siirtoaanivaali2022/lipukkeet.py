@@ -9,6 +9,17 @@ class Lipukkeet:
     def lisaa_lipuke(self, lipuke : Lipuke):
         self.lipukkeet.append(lipuke)
 
+    def hae_aanet(self):
+        aanet = {}
+        for lipuke in self.lipukkeet:
+            lipukkeen_aanet = lipuke.hae_aanet()
+            for aani in lipukkeen_aanet:
+                if aani[0] not in aanet:
+                    aanet[aani[0]] = 0
+                aanet[aani[0]] += aani[1]
+
+        return aanet
+    
     def __str__(self) -> str:
         mjono = ""
         n = 1

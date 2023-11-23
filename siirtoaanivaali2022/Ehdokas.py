@@ -6,8 +6,14 @@ class Ehdokas:
         self.p = 1
         self.status = "toiveikas"
 
+    def hae_nro(self):
+        return self.nro
+
     def set_nimi(self, nimi:str):
         self.nimi = nimi
+
+    def hae_nimi(self):
+        return self.nimi
 
     def __str__(self) -> str:
         return f"Ehdokas {self.nro} {self.nimi}, p: {self.p}, status: {self.status}"

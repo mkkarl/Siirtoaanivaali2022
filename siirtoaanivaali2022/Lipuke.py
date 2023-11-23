@@ -11,6 +11,13 @@ class Lipuke:
         for n in range(1,len(aanet)):
             self.rivit.append(Lipukerivi(aanet[n], self.rivit[n - 1], 0))
 
+    def hae_aanet(self):
+        aanet = []
+        for rivi in self.rivit:
+            aanet.append((rivi.hae_ehdokas(), rivi.hae_aanimaara()))
+        
+        return aanet
+
     def __str__(self) -> str:
         mjono = ""
         for rivi in self.rivit:

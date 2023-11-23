@@ -8,6 +8,12 @@ class Lipukerivi:
         self.edellinen_rivi = edellinen_rivi
         self.aanimaara = aanimaara
 
+    def hae_ehdokas(self):
+        return self.ehdokas
+
+    def hae_aanimaara(self):
+        return self.aanimaara
+
     def __str__(self) -> str:
         return f"{str(self.ehdokas)}, äänimäärä: {self.aanimaara}"
     
