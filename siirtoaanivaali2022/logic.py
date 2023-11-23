@@ -23,6 +23,10 @@ for ehdokas in aanet:
 
 #   2. Lipukkeet äänihukka
 
+aanihukka = vaali.hae_lipukkeet().aanihukka()
+
+print(f"äänihukka: {aanihukka}")
+
 #   3. Äänikynnys update
 
 #   4. Ehdokas:Ehdokkaat ehdokas.updateP

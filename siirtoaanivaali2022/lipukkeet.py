@@ -20,6 +20,13 @@ class Lipukkeet:
 
         return aanet
     
+    def aanihukka(self):
+        aanihukka = 0
+        for lipuke in self.lipukkeet:
+            aanihukka += lipuke.aanihukka()
+
+        return aanihukka
+    
     def __str__(self) -> str:
         mjono = ""
         n = 1

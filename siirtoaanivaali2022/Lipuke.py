@@ -17,6 +17,13 @@ class Lipuke:
             aanet.append((rivi.hae_ehdokas(), rivi.hae_aanimaara()))
         
         return aanet
+    
+    def aanihukka(self):
+        aanien_summa = 0
+        for rivi in self.rivit:
+            aanien_summa += rivi.hae_aanimaara()
+
+        return (1 - aanien_summa)
 
     def __str__(self) -> str:
         mjono = ""
