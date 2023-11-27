@@ -11,7 +11,8 @@ vaali = Vaali()
 tiedosto = "testivaali.txt"
 
 opavote.luo_lipukkeet(tiedosto, vaali)
-aanikynnys = vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() + 1
+vaali.alusta_aanikynnys()
+print(f"äänikynnys: {vaali.hae_aanikynnys()}")
 
 # laskentakierros, toista kunnes valittuja tarpeeksi
 
@@ -19,28 +20,27 @@ aanikynnys = vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() + 1
 
 # jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
 
-vaali.hae_lipukkeet().jaa_aanet()
+vaali.jaa_aanet_lipukkeilla()
 
-aanet = vaali.hae_lipukkeet().hae_aanet()
+vaali.laske_aanet()
 
-for ehdokas in aanet:
-    print(f"{ehdokas.hae_nro()} {ehdokas.hae_nimi()}\t{aanet[ehdokas]}")
+print(str(vaali.hae_ehdokkaat()))
 
 #   2. Lipukkeet äänihukka
 
-aanihukka = vaali.hae_lipukkeet().aanihukka()
-
-print(f"äänihukka: {aanihukka}")
+vaali.paivita_aanihukka()
+print(f"äänihukka: {vaali.hae_aanihukka()}")
 
 #   3. Äänikynnys update
 
-aanikynnys = (vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() - aanihukka) / vaali.hae_valittavien_lkm()
-
-print(f"äänikynnys: {aanikynnys}")
+vaali.paivita_aanikynnys()
+print(f"äänikynnys: {vaali.hae_aanikynnys()}")
 
 #   4. Ehdokas:Ehdokkaat ehdokas.updateP
 
-vaali.hae_ehdokkaat().paivita_p(aanikynnys)
+vaali.paivita_p_arvot()
+
+# vaali.hae_ehdokkaat().paivita_p(vaali.hae_aanikynnys())
 
 #   Ehdokkaat valitse äänikynnyksen ylittäneet tai pudota vähiten ääniä saanut
 #       jos tasapeli, toista laskentakierrosta poikkeavilla säännöillä (tee laskentakierroksesta oma funktio ja kutsu sitä rekursiivisesti)

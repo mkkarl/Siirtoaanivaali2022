@@ -17,7 +17,7 @@ class Ehdokkaat:
             self.__ehdokkaat[ehdokas].paivita_p(aanikynnys)
     
     def __str__(self) -> str:
-        mjono = ""
+        mjono = "Ehdokkaat\n"
         for ehdokas in self.__ehdokkaat:
             mjono += str(self.__ehdokkaat[ehdokas]) + "\n"
         return mjono.strip()

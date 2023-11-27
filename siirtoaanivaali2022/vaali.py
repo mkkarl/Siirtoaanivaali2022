@@ -8,6 +8,10 @@ class Vaali:
         self.__ehdokkaat = Ehdokkaat()
         self.__lipukkeet = Lipukkeet()
         self.__valittavien_lkm = 0
+        self.__aanihukka = 0
+        self.__aanikynnys = 0
+
+    # muuttujien käsittely
 
     def aseta_vaalin_nimi(self, nimi :str):
         self.__nimi = nimi
@@ -29,3 +33,36 @@ class Vaali:
 
     def hae_valittavien_lkm(self):
         return self.__valittavien_lkm
+    
+    def hae_aanihukka(self):
+        return self.__aanihukka
+    
+    def alusta_aanikynnys(self):
+        self.__aanikynnys = self.__lipukkeet.hyvaksytyt_aanet_lkm() + 1
+
+    def hae_aanikynnys(self):
+        return self.__aanikynnys
+    
+    # metodit
+    
+    def jaa_aanet_lipukkeilla(self):
+        self.__lipukkeet.jaa_aanet()
+
+    def laske_aanet(self):
+        aanet = self.__lipukkeet.hae_aanet()
+
+        for ehdokas in aanet:
+            nro = ehdokas.hae_nro()
+            self.__ehdokkaat.hae_ehdokas(nro).aseta_kokonaisaanimaara(aanet[ehdokas])
+
+    def tulosta_ehdokkaat(self):
+        return str(self.__ehdokkaat)
+    
+    def paivita_aanihukka(self):
+        self.__lipukkeet.aanihukka()
+
+    def paivita_aanikynnys(self):
+        self.__aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm
+
+    def paivita_p_arvot(self):
+        self.__ehdokkaat.paivita_p(self.__aanikynnys)

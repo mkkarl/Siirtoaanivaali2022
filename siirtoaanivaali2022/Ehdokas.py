@@ -26,8 +26,11 @@ class Ehdokas:
     def hae_status(self):
         return self.__status
     
+    def aseta_kokonaisaanimaara(self, kokonaisaanimaara):
+        self.__kokonaisaanimaara = kokonaisaanimaara
+    
     def __str__(self) -> str:
-        return f"Ehdokas {self.__nro} {self.__nimi}, p: {self.__p}, status: {self.__status}"
+        return f"Ehdokas {self.__nro}\t{self.__nimi}\täänimäärä {self.__kokonaisaanimaara}\tp: {self.__p}\tstatus: {self.__status}"
     
 
 if __name__ == "__main__":
