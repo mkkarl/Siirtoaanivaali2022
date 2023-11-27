@@ -36,9 +36,13 @@ print(f"äänihukka: {vaali.hae_aanihukka()}")
 vaali.paivita_aanikynnys()
 print(f"äänikynnys: {vaali.hae_aanikynnys()}")
 
+vaali.valitse_ehdokkaat()
+print(str(vaali.hae_ehdokkaat()))
+
 #   4. Ehdokas:Ehdokkaat ehdokas.updateP
 
 vaali.paivita_p_arvot()
+print(str(vaali.hae_ehdokkaat()))
 
 # vaali.hae_ehdokkaat().paivita_p(vaali.hae_aanikynnys())
 

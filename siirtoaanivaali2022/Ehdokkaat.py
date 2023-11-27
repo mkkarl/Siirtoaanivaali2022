@@ -15,6 +15,12 @@ class Ehdokkaat:
     def paivita_p(self, aanikynnys):
         for ehdokas in self.__ehdokkaat:
             self.__ehdokkaat[ehdokas].paivita_p(aanikynnys)
+
+    def valitse_ehdokkaat(self, aanikynnys):
+        for nro in self.__ehdokkaat:
+            ehdokas = self.__ehdokkaat[nro]
+            if ehdokas.hae_status() == "toiveikas" and ehdokas.hae_kokonaisaanimaara() > aanikynnys:
+                ehdokas.valitse()
     
     def __str__(self) -> str:
         mjono = "Ehdokkaat\n"

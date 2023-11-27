@@ -8,6 +8,7 @@ class Vaali:
         self.__ehdokkaat = Ehdokkaat()
         self.__lipukkeet = Lipukkeet()
         self.__valittavien_lkm = 0
+        self.__valittujen_lkm = 0
         self.__aanihukka = 0
         self.__aanikynnys = 0
 
@@ -66,3 +67,6 @@ class Vaali:
 
     def paivita_p_arvot(self):
         self.__ehdokkaat.paivita_p(self.__aanikynnys)
+
+    def valitse_ehdokkaat(self):
+        self.__ehdokkaat.valitse_ehdokkaat(self.__aanikynnys)

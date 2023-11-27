@@ -18,7 +18,7 @@ class Ehdokas:
     
     def paivita_p(self, aanikynnys):
         if self.__status == "valittu":
-            p = aanikynnys * p / self.__kokonaisaanimaara
+            self.__p = aanikynnys * self.__p / self.__kokonaisaanimaara
 
     def hae_p(self):
         return self.__p
@@ -26,8 +26,17 @@ class Ehdokas:
     def hae_status(self):
         return self.__status
     
+    def valitse(self):
+        self.__status = "valittu"
+
+    def pudota(self):
+        self.__status = "pudotettu"
+    
     def aseta_kokonaisaanimaara(self, kokonaisaanimaara):
         self.__kokonaisaanimaara = kokonaisaanimaara
+
+    def hae_kokonaisaanimaara(self):
+        return self.__kokonaisaanimaara
     
     def __str__(self) -> str:
         return f"Ehdokas {self.__nro}\t{self.__nimi}\täänimäärä {self.__kokonaisaanimaara}\tp: {self.__p}\tstatus: {self.__status}"
