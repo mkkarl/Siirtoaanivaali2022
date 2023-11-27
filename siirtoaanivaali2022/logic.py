@@ -11,12 +11,15 @@ vaali = Vaali()
 tiedosto = "testivaali.txt"
 
 opavote.luo_lipukkeet(tiedosto, vaali)
+aanikynnys = vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() + 1
 
 # laskentakierros, toista kunnes valittuja tarpeeksi
 
 #   1. Ehdokas:Ehdokkaat laske äänet
 
 # jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
+
+vaali.hae_lipukkeet().jaa_aanet()
 
 aanet = vaali.hae_lipukkeet().hae_aanet()
 

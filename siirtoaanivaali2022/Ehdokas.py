@@ -15,9 +15,6 @@ class Ehdokas:
 
     def hae_nimi(self):
         return self.__nimi
-
-    def __str__(self) -> str:
-        return f"Ehdokas {self.__nro} {self.__nimi}, p: {self.__p}, status: {self.__status}"
     
     def paivita_p(self, aanikynnys):
         if self.__status == "valittu":
@@ -25,6 +22,12 @@ class Ehdokas:
 
     def hae_p(self):
         return self.__p
+    
+    def hae_status(self):
+        return self.__status
+    
+    def __str__(self) -> str:
+        return f"Ehdokas {self.__nro} {self.__nimi}, p: {self.__p}, status: {self.__status}"
     
 
 if __name__ == "__main__":

@@ -9,6 +9,10 @@ class Lipukkeet:
     def lisaa_lipuke(self, lipuke : Lipuke):
         self.__lipukkeet.append(lipuke)
 
+    def jaa_aanet(self):
+        for lipuke in self.__lipukkeet:
+            lipuke.jaa_aani()
+
     def hae_aanet(self):
         aanet = {}
         for lipuke in self.__lipukkeet:
