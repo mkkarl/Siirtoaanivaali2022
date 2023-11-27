@@ -1,30 +1,30 @@
 class Ehdokas:
 
     def __init__(self, nro:int):
-        self.nro = nro
-        self.nimi = ""
-        self.p = 1
-        self.status = "toiveikas"
-        self.kokonaisaanimaara = 0
+        self.__nro = nro
+        self.__nimi = ""
+        self.__p = 1
+        self.__status = "toiveikas"
+        self.__kokonaisaanimaara = 0
 
     def hae_nro(self):
-        return self.nro
+        return self.__nro
 
     def set_nimi(self, nimi:str):
-        self.nimi = nimi
+        self.__nimi = nimi
 
     def hae_nimi(self):
-        return self.nimi
+        return self.__nimi
 
     def __str__(self) -> str:
-        return f"Ehdokas {self.nro} {self.nimi}, p: {self.p}, status: {self.status}"
+        return f"Ehdokas {self.__nro} {self.__nimi}, p: {self.__p}, status: {self.__status}"
     
     def paivita_p(self, aanikynnys):
-        if self.status == "valittu":
-            p = aanikynnys * p / self.kokonaisaanimaara
+        if self.__status == "valittu":
+            p = aanikynnys * p / self.__kokonaisaanimaara
 
     def hae_p(self):
-        return self.p
+        return self.__p
     
 
 if __name__ == "__main__":

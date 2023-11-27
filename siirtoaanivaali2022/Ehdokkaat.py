@@ -3,23 +3,23 @@ from Ehdokas import Ehdokas
 class Ehdokkaat:
 
     def __init__(self) -> None:
-        self.ehdokkaat = {}
+        self.__ehdokkaat = {}
 
     def lisaa_ehdokkaat(self, ehdokkaat_lkm : int):
         for n in range(ehdokkaat_lkm):
-            self.ehdokkaat[n+1] = Ehdokas(n+1)
+            self.__ehdokkaat[n+1] = Ehdokas(n+1)
 
     def hae_ehdokas(self, ehdokas_nro : int):
-        return self.ehdokkaat[ehdokas_nro]
+        return self.__ehdokkaat[ehdokas_nro]
     
     def paivita_p(self, aanikynnys):
-        for ehdokas in self.ehdokkaat:
+        for ehdokas in self.__ehdokkaat:
             ehdokas.paivita_p(aanikynnys)
     
     def __str__(self) -> str:
         mjono = ""
-        for ehdokas in self.ehdokkaat:
-            mjono += str(self.ehdokkaat[ehdokas]) + "\n"
+        for ehdokas in self.__ehdokkaat:
+            mjono += str(self.__ehdokkaat[ehdokas]) + "\n"
         return mjono.strip()
     
 
