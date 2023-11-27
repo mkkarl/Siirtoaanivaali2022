@@ -12,6 +12,10 @@ class Ehdokkaat:
     def hae_ehdokas(self, ehdokas_nro : int):
         return self.ehdokkaat[ehdokas_nro]
     
+    def paivita_p(self, aanikynnys):
+        for ehdokas in self.ehdokkaat:
+            ehdokas.paivita_p(aanikynnys)
+    
     def __str__(self) -> str:
         mjono = ""
         for ehdokas in self.ehdokkaat:

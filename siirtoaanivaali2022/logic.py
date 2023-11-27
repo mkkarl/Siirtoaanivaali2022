@@ -16,6 +16,8 @@ opavote.luo_lipukkeet(tiedosto, vaali)
 
 #   1. Ehdokas:Ehdokkaat laske äänet
 
+# jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
+
 aanet = vaali.hae_lipukkeet().hae_aanet()
 
 for ehdokas in aanet:
@@ -34,6 +36,8 @@ aanikynnys = (vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() - aanihukka) / vaali.
 print(f"äänikynnys: {aanikynnys}")
 
 #   4. Ehdokas:Ehdokkaat ehdokas.updateP
+
+vaali.hae_ehdokkaat().paivita_p(aanikynnys)
 
 #   Ehdokkaat valitse äänikynnyksen ylittäneet tai pudota vähiten ääniä saanut
 #       jos tasapeli, toista laskentakierrosta poikkeavilla säännöillä (tee laskentakierroksesta oma funktio ja kutsu sitä rekursiivisesti)

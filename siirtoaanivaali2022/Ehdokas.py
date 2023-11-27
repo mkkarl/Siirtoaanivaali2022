@@ -5,6 +5,7 @@ class Ehdokas:
         self.nimi = ""
         self.p = 1
         self.status = "toiveikas"
+        self.kokonaisaanimaara = 0
 
     def hae_nro(self):
         return self.nro
@@ -17,6 +18,13 @@ class Ehdokas:
 
     def __str__(self) -> str:
         return f"Ehdokas {self.nro} {self.nimi}, p: {self.p}, status: {self.status}"
+    
+    def paivita_p(self, aanikynnys):
+        if self.status == "valittu":
+            p = aanikynnys * p / self.kokonaisaanimaara
+
+    def hae_p(self):
+        return self.p
     
 
 if __name__ == "__main__":
