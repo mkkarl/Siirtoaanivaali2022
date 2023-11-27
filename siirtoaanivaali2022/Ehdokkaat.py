@@ -14,7 +14,7 @@ class Ehdokkaat:
     
     def paivita_p(self, aanikynnys):
         for ehdokas in self.__ehdokkaat:
-            ehdokas.paivita_p(aanikynnys)
+            self.__ehdokkaat[ehdokas].paivita_p(aanikynnys)
     
     def __str__(self) -> str:
         mjono = ""
