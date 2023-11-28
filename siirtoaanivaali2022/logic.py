@@ -20,6 +20,8 @@ kierros = 1
 
 while kierros < 6:
 
+    valitut_kierroksen_alussa = vaali.hae_valittujen_lkm()
+
     print(f"\nKierros {kierros}\n")
 
     #   1. Ehdokas:Ehdokkaat laske äänet
@@ -51,6 +53,14 @@ while kierros < 6:
     print(str(vaali.hae_ehdokkaat()))
 
     print(f"Valittujen lkm: {vaali.hae_valittujen_lkm()}")
+
+    print(str(valitut_kierroksen_alussa))
+
+    if valitut_kierroksen_alussa - vaali.hae_valittujen_lkm() == 0:
+        vaali.pudota_ehdokas()
+        print("Ehdokkaat pudotuksen jälkeen")
+        print(str(vaali.hae_ehdokkaat()))
+
 
     kierros += 1
 

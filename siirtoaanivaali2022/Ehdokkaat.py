@@ -26,6 +26,18 @@ class Ehdokkaat:
 
         return valittujen_lkm
     
+    def pudota_ehdokas(self, maksimi):
+        minimi = maksimi
+        pudotettava = None
+        for nro in self.__ehdokkaat:
+            ehdokas = self.__ehdokkaat[nro]
+            aanimaara = ehdokas.hae_kokonaisaanimaara()
+            if ehdokas.hae_status() == "toiveikas" and aanimaara < minimi:
+                minimi = aanimaara
+                pudotettava = ehdokas
+
+        pudotettava.pudota()
+    
     def __str__(self) -> str:
         mjono = "Ehdokkaat\n"
         for ehdokas in self.__ehdokkaat:

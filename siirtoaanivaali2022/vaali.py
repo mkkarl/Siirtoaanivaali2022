@@ -73,3 +73,6 @@ class Vaali:
 
     def valitse_ehdokkaat(self):
         self.__valittujen_lkm += self.__ehdokkaat.valitse_ehdokkaat(self.__aanikynnys)
+
+    def pudota_ehdokas(self):
+        self.__ehdokkaat.pudota_ehdokas(self.__lipukkeet.hyvaksytyt_aanet_lkm() + 1)
