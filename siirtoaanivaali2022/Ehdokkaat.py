@@ -17,10 +17,14 @@ class Ehdokkaat:
             self.__ehdokkaat[ehdokas].paivita_p(aanikynnys)
 
     def valitse_ehdokkaat(self, aanikynnys):
+        valittujen_lkm = 0
         for nro in self.__ehdokkaat:
             ehdokas = self.__ehdokkaat[nro]
             if ehdokas.hae_status() == "toiveikas" and ehdokas.hae_kokonaisaanimaara() > aanikynnys:
                 ehdokas.valitse()
+                valittujen_lkm += 1
+
+        return valittujen_lkm
     
     def __str__(self) -> str:
         mjono = "Ehdokkaat\n"

@@ -16,33 +16,43 @@ print(f"äänikynnys: {vaali.hae_aanikynnys()}")
 
 # laskentakierros, toista kunnes valittuja tarpeeksi
 
-#   1. Ehdokas:Ehdokkaat laske äänet
+kierros = 1
 
-# jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
+while kierros < 6:
 
-vaali.jaa_aanet_lipukkeilla()
+    print(f"\nKierros {kierros}\n")
 
-vaali.laske_aanet()
+    #   1. Ehdokas:Ehdokkaat laske äänet
 
-print(str(vaali.hae_ehdokkaat()))
+    # jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
 
-#   2. Lipukkeet äänihukka
+    vaali.jaa_aanet_lipukkeilla()
 
-vaali.paivita_aanihukka()
-print(f"äänihukka: {vaali.hae_aanihukka()}")
+    vaali.laske_aanet()
 
-#   3. Äänikynnys update
+    print(str(vaali.hae_ehdokkaat()))
 
-vaali.paivita_aanikynnys()
-print(f"äänikynnys: {vaali.hae_aanikynnys()}")
+    #   2. Lipukkeet äänihukka
 
-vaali.valitse_ehdokkaat()
-print(str(vaali.hae_ehdokkaat()))
+    vaali.paivita_aanihukka()
+    print(f"äänihukka: {vaali.hae_aanihukka()}")
 
-#   4. Ehdokas:Ehdokkaat ehdokas.updateP
+    #   3. Äänikynnys update
 
-vaali.paivita_p_arvot()
-print(str(vaali.hae_ehdokkaat()))
+    vaali.paivita_aanikynnys()
+    print(f"äänikynnys: {vaali.hae_aanikynnys()}")
+
+    vaali.valitse_ehdokkaat()
+    print(str(vaali.hae_ehdokkaat()))
+
+    #   4. Ehdokas:Ehdokkaat ehdokas.updateP
+
+    vaali.paivita_p_arvot()
+    print(str(vaali.hae_ehdokkaat()))
+
+    print(f"Valittujen lkm: {vaali.hae_valittujen_lkm()}")
+
+    kierros += 1
 
 # vaali.hae_ehdokkaat().paivita_p(vaali.hae_aanikynnys())
 
