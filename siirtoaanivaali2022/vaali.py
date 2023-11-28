@@ -63,7 +63,7 @@ class Vaali:
         return str(self.__ehdokkaat)
     
     def paivita_aanihukka(self):
-        self.__lipukkeet.aanihukka()
+        self.__aanihukka = self.__lipukkeet.aanihukka()
 
     def paivita_aanikynnys(self):
         self.__aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm
