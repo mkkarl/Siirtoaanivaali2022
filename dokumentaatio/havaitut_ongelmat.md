@@ -12,7 +12,7 @@ Vaalijärjestyksessä ei ole selkeästi määritetty kohtaa, jossa äänikynnyks
 
 Vaalijärjestyksen mukainen p-arvon laskeminen aiheuttaa välillä tilanteen, jossa valituilla ehdokkailla on ääniä enemmän kuin äänikynnyksen verran.
 
-**Ratkaisuehdotus:** Lasketaan artikkelin [Algorithm 123 — SINGLE TRANSFERABLE VOTE BY MEEK’S METHOD (Hill, et al. 1987)] mukaisesti äänikynnykselle, painolle p, kokonaisäänimäärille ja äänihukalle, kuten on kuvattu kohdassa 2.9.
+**Ratkaisuehdotus:** Lasketaan artikkelin [Algorithm 123 — SINGLE TRANSFERABLE VOTE BY MEEK’S METHOD (Hill, et al. 1987)](https://svn.apache.org/repos/asf/steve/trunk/stv_background/meekm.pdf) mukaisesti äänikynnykselle, painolle p, kokonaisäänimäärille ja äänihukalle uusi arvo, kuten on kuvattu kohdassa 2.9.
 
 ## Ehdokkaan valinta äänikynnyksen ylittyessä
 
