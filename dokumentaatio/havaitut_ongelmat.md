@@ -17,11 +17,8 @@ Vaalijärjestyksen mukainen p-arvon laskeminen aiheuttaa välillä tilanteen, jo
 ## Ehdokkaan valinta äänikynnyksen ylittyessä
 
 Vaalijärjestyksen mukaan ehdokkaan tulee *ylittää* äänikynnys tullakseen valituksi eli ehdokkaan kokonaisäänimäärän tulee olla suurempi kuin äänikynnys. Koska äänikynnys lasketaan
-$$ a - b \over c $$
-jossa
-- $a$ on kaikki hyväksytyt äänet
-- $b$ on yhteenlaskettu äänihukka
-- $c$ on valittavien paikkojen määrä,
+
+*(kaikki hyväksytyt äänet - yhteenlaskettu äänihukka) / valittavien paikkojen määrä*,
 
 niin ainakin viimeinen valittavissa oleva ehdokas ei ylitä äänikynnystä, vaan saavuttaa sen juuri ja juuri tai jää hieman sen alapuolelle riippuen pyöristyksistä. Mikäli p-arvon laskemiseen ei tehdä korjausta, ongelma on vielä huomattavampi.
 
