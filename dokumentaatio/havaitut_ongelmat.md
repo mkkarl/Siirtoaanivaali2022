@@ -6,7 +6,9 @@ Ohjelman koodaamisen yhteydessä on havaittu joitakin ongelmia [vaalijärjetykse
 
 Vaalijärjestyksessä ei ole selkeästi määritetty kohtaa, jossa äänikynnyksen ylittäneiden ehdokkaiden valinta tapahtuu.
 
-**Ratkaisuehdotus:** Vaalijärjestyksessä on ääntenlaskun suorittamisessa kohdat 1-4. Suoritetaan ehdokkaiden valinta kohtien 3 ja 4 välissä. Jos kierroksella ei valita ehdokkaita, suoritetaan ehdokkaiden pudotus kohdan 4 jälkeen.
+**Ratkaisuehdotus:** Vaalijärjestyksessä on ääntenlaskun suorittamisessa kohdat 1-4. Suoritetaan ehdokkaiden valinta kohtien 3 ja 4 välissä. Tällöin ehdokkaiden valintaan käytetty äänikynnys ja lasketut äänet ovat samalta laskentakierrokselta.
+
+Jos kierroksella ei valita ehdokkaita, suoritetaan ehdokkaiden pudotus kohdan 4 jälkeen.
 
 ## p-arvon laskeminen
 
