@@ -16,8 +16,9 @@ Vaalijärjestyksen mukainen p-arvon laskeminen aiheuttaa välillä tilanteen, jo
 
 ## Ehdokkaan valinta äänikynnyksen ylittyessä
 
-Vaalijärjestyksen mukaan ehdokkaan tulee *ylittää* äänikynnys tullakseen valituksi. Koska äänikynnys lasketaan
-$ {a – b \over c} $, jossa
+Vaalijärjestyksen mukaan ehdokkaan tulee *ylittää* äänikynnys tullakseen valituksi eli ehdokkaan kokonaisäänimäärän tulee olla suurempi kuin äänikynnys. Koska äänikynnys lasketaan
+$$ {a - b \over c} $$
+jossa
 - $a$ on kaikki hyväksytyt äänet
 - $b$ on yhteenlaskettu äänihukka
 - $c$ on valittavien paikkojen määrä,
