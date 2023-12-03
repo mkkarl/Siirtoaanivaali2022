@@ -1,5 +1,6 @@
 from Ehdokas import Ehdokas
 import Lipukerivi
+import math
 
 class Lipukerivi:
 
@@ -16,7 +17,11 @@ class Lipukerivi:
         return self.__aanimaara
     
     def laske_aanimaara(self, p_kerroin):
-        self.__aanimaara = p_kerroin * self.__ehdokas.hae_p()
+        aanimaara = p_kerroin * self.__ehdokas.hae_p()
+        aanimaara *= 100000
+        aanimaara = math.floor(aanimaara)
+        aanimaara /= 100000
+        self.__aanimaara = aanimaara
 
         if self.__ehdokas.hae_status() == "toiveikas":
             return 0

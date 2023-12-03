@@ -1,5 +1,6 @@
 from Ehdokkaat import Ehdokkaat
 from lipukkeet import Lipukkeet
+import math
 
 class Vaali:
 
@@ -60,16 +61,20 @@ class Vaali:
 
         for ehdokas in aanet:
             nro = ehdokas.hae_nro()
-            self.__ehdokkaat.hae_ehdokas(nro).aseta_kokonaisaanimaara(aanet[ehdokas])
+            self.__ehdokkaat.hae_ehdokas(nro).aseta_kokonaisaanimaara(round(aanet[ehdokas], 5))
 
     def tulosta_ehdokkaat(self):
         return str(self.__ehdokkaat)
     
     def paivita_aanihukka(self):
-        self.__aanihukka = self.__lipukkeet.aanihukka()
+        self.__aanihukka = round(self.__lipukkeet.aanihukka(), 5)
 
     def paivita_aanikynnys(self):
-        self.__aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm
+        aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm
+        aanikynnys *= 100000
+        aanikynnys = math.ceil(aanikynnys)
+        aanikynnys /= 100000
+        self.__aanikynnys = aanikynnys
 
     def paivita_p_arvot(self):
         self.__ehdokkaat.paivita_p(self.__aanikynnys)
