@@ -17,6 +17,9 @@ class Vaali:
     def aseta_vaalin_nimi(self, nimi :str):
         self.__nimi = nimi
 
+    def hae_vaalin_nimi(self):
+        return self.__nimi
+
     def aseta_ehdokkaat(self, ehdokkaat : Ehdokkaat):
         self.__ehdokkaat = ehdokkaat
 

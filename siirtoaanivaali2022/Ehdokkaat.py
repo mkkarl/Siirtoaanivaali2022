@@ -12,6 +12,9 @@ class Ehdokkaat:
     def hae_ehdokas(self, ehdokas_nro : int):
         return self.__ehdokkaat[ehdokas_nro]
     
+    def hae_ehdokkaiden_lkm(self):
+        return len(self.__ehdokkaat)
+    
     def paivita_p(self, aanikynnys):
         for ehdokas in self.__ehdokkaat:
             self.__ehdokkaat[ehdokas].paivita_p(aanikynnys)
