@@ -38,9 +38,11 @@ with open(laskenta, "w") as tiedosto:
 
 # laskentakierros, toista kunnes valittuja tarpeeksi
 
+pudotettavien_lkm = vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm() - vaali.hae_valittavien_lkm()
+
 kierros = 1
 
-while kierros < 11:
+while pudotettavien_lkm > 0:
 
     valitut_kierroksen_alussa = vaali.hae_valittujen_lkm()
 
@@ -103,6 +105,7 @@ while kierros < 11:
 
     if valitut_kierroksen_alussa - vaali.hae_valittujen_lkm() == 0:
         pudotettava = vaali.pudota_ehdokas()
+        pudotettavien_lkm -= 1
         with open(laskenta, "a") as tiedosto:
             tiedosto.write(f"Pudotetaan ehdokas {pudotettava}\n\n")
             #tiedosto.write(str(vaali.hae_ehdokkaat()) + "\n")
@@ -112,6 +115,17 @@ while kierros < 11:
         tiedosto.write(str(vaali.hae_ehdokkaat()) + "\n\n")
 
     kierros += 1
+
+if vaali.hae_valittujen_lkm() < vaali.hae_valittavien_lkm():
+    valitut = vaali.valitse_loput_toiveikkaat()
+
+    with open(laskenta, "a") as tiedosto:
+        mjono = "Valitaan loput toiveikkaat ehdokkaat"
+        tiedosto.write(f"\n{mjono}\n")
+        tiedosto.write("=" * len(mjono) + "\n\n")
+
+        for valittu in valitut:
+            tiedosto.write(valittu + "\n")
 
 with open(laskenta, "a") as tiedosto:
     mjono = "VAALIN TULOS"

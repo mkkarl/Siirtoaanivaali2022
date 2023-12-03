@@ -27,7 +27,6 @@ class Ehdokkaat:
             self.__ehdokkaat[ehdokas].paivita_p(aanikynnys)
 
     def valitse_ehdokkaat(self, aanikynnys):
-        #valittujen_lkm = 0
         kierroksella_valitut = []
         for nro in self.__ehdokkaat:
             ehdokas = self.__ehdokkaat[nro]
@@ -35,9 +34,7 @@ class Ehdokkaat:
                 ehdokas.valitse()
                 kierroksella_valitut.append(ehdokas.hae_nimi())
                 self.__valitut.append(ehdokas.hae_nimi())
-                #valittujen_lkm += 1
 
-        #return valittujen_lkm
         return kierroksella_valitut
     
     def pudota_ehdokas(self, maksimi):
@@ -52,6 +49,17 @@ class Ehdokkaat:
                 pudotettava = ehdokas
 
         return pudotettava.pudota()
+    
+    def valitse_loput_toiveikkaat(self):
+        kierroksella_valitut = []
+        for nro in self.__ehdokkaat:
+            ehdokas = self.__ehdokkaat[nro]
+            if ehdokas.hae_status() == "toiveikas":
+                ehdokas.valitse()
+                kierroksella_valitut.append(ehdokas.hae_nimi())
+                self.__valitut.append(ehdokas.hae_nimi())
+
+        return kierroksella_valitut
     
     def __str__(self) -> str:
         mjono = "Ehdokkaat\n"
