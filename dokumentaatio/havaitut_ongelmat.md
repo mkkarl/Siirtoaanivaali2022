@@ -14,7 +14,9 @@ Jos kierroksella ei valita ehdokkaita, suoritetaan ehdokkaiden pudotus kohdan 4 
 
 Vaalijärjestyksen mukainen p-arvon laskeminen aiheuttaa välillä tilanteen, jossa valituilla ehdokkailla on ääniä enemmän kuin äänikynnyksen verran.
 
-**Ratkaisuehdotus:** Lasketaan artikkelin [Algorithm 123 — SINGLE TRANSFERABLE VOTE BY MEEK’S METHOD (Hill, et al. 1987)](https://svn.apache.org/repos/asf/steve/trunk/stv_background/meekm.pdf) mukaisesti äänikynnykselle, painolle p, kokonaisäänimäärille ja äänihukalle uusi arvo, kuten on kuvattu kohdassa 2.9.
+**Ratkaisuehdotus:** Lasketaan artikkelin [Algorithm 123 — SINGLE TRANSFERABLE VOTE BY MEEK’S METHOD (Hill, et al. 1987)](https://svn.apache.org/repos/asf/steve/trunk/stv_background/meekm.pdf) mukaisesti äänikynnykselle, painolle p, kokonaisäänimäärille ja äänihukalle uusi arvo, kuten on kuvattu artikkelin kohdassa 2.9.
+
+Toteutetaan tämä siten, että toistetaan vaalijärjestyksessä kuvattuja kohtia 1-4. Kohdan 3 jälkeen tarkistetaan valittujen ehdokkaiden kokonaisäänimäärien ja äänikynnyksen suhdeluku. Jos suhdeluku on kaikilla valituilla ehdokkailla määrätyissä rajoissa, suoritetaan valinta tai tarvittaessa kohdan 4 jälkeen pudotus. Mikäli suhdeluku ei ole määrätyissä rajoissa, ei suoriteta valintaa eikä pudotusta vaan ainoastaan kohta 4 ja siirrytään takaisin kohtaan 1.
 
 ## Ehdokkaan valinta äänikynnyksen ylittyessä
 
