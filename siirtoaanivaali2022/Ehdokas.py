@@ -32,6 +32,7 @@ class Ehdokas:
     def pudota(self):
         self.__status = "pudotettu"
         self.__p = 0
+        return self.__nimi
     
     def aseta_kokonaisaanimaara(self, kokonaisaanimaara):
         self.__kokonaisaanimaara = kokonaisaanimaara

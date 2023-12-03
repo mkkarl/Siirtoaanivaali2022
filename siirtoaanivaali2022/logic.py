@@ -78,10 +78,15 @@ while kierros < 11:
 #   Ehdokkaat valitse äänikynnyksen ylittäneet tai pudota vähiten ääniä saanut
 #       jos tasapeli, toista laskentakierrosta poikkeavilla säännöillä (tee laskentakierroksesta oma funktio ja kutsu sitä rekursiivisesti)
 
-    vaali.valitse_ehdokkaat()
+    kierroksella_valitut = vaali.valitse_ehdokkaat()
 
     with open(laskenta, "a") as tiedosto:
         tiedosto.write(str(vaali.hae_ehdokkaat()) + "\n\n")
+
+        if len(kierroksella_valitut) > 0:
+            tiedosto.write(str(kierroksella_valitut) + "\n\n")
+        else:
+            tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
 
     #   4. Ehdokas:Ehdokkaat ehdokas.updateP
 
@@ -97,9 +102,9 @@ while kierros < 11:
     #print(str(valitut_kierroksen_alussa))
 
     if valitut_kierroksen_alussa - vaali.hae_valittujen_lkm() == 0:
-        vaali.pudota_ehdokas()
+        pudotettava = vaali.pudota_ehdokas()
         with open(laskenta, "a") as tiedosto:
-            tiedosto.write("Pudotetaan ehdokas\n\n")
+            tiedosto.write(f"Pudotetaan ehdokas {pudotettava}\n\n")
             #tiedosto.write(str(vaali.hae_ehdokkaat()) + "\n")
 
     with open(laskenta, "a") as tiedosto:
@@ -107,6 +112,16 @@ while kierros < 11:
         tiedosto.write(str(vaali.hae_ehdokkaat()) + "\n\n")
 
     kierros += 1
+
+with open(laskenta, "a") as tiedosto:
+    mjono = "VAALIN TULOS"
+    tiedosto.write(f"\n{mjono}\n")
+    tiedosto.write("=" * len(mjono) + "\n\n")
+
+    tiedosto.write("Valitut ehdokkaat:\n\n")
+    valitut = vaali.hae_ehdokkaat().hae_valitut()
+    for valittu in valitut:
+        tiedosto.write(valittu + "\n")
 
 
 

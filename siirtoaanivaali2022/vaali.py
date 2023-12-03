@@ -40,7 +40,8 @@ class Vaali:
         return self.__valittavien_lkm
     
     def hae_valittujen_lkm(self):
-        return self.__valittujen_lkm
+        #return self.__valittujen_lkm
+        return self.__ehdokkaat.hae_valittujen_lkm()
     
     def hae_aanihukka(self):
         return self.__aanihukka
@@ -80,7 +81,9 @@ class Vaali:
         self.__ehdokkaat.paivita_p(self.__aanikynnys)
 
     def valitse_ehdokkaat(self):
-        self.__valittujen_lkm += self.__ehdokkaat.valitse_ehdokkaat(self.__aanikynnys)
+        #self.__valittujen_lkm += self.__ehdokkaat.valitse_ehdokkaat(self.__aanikynnys)
+        return self.__ehdokkaat.valitse_ehdokkaat(self.__aanikynnys)
 
     def pudota_ehdokas(self):
-        self.__ehdokkaat.pudota_ehdokas(self.__lipukkeet.hyvaksytyt_aanet_lkm() + 1)
+        return self.__ehdokkaat.pudota_ehdokas(self.__lipukkeet.hyvaksytyt_aanet_lkm() + 1)
+
