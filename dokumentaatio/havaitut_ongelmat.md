@@ -8,7 +8,9 @@ Vaalijärjestyksessä ei ole selkeästi määritetty kohtaa, jossa äänikynnyks
 
 **Ratkaisuehdotus:** Vaalijärjestyksessä on ääntenlaskun suorittamisessa kohdat 1-4. Suoritetaan ehdokkaiden valinta kohtien 3 ja 4 välissä. Tällöin ehdokkaiden valintaan käytetty äänikynnys ja lasketut äänet ovat samalta laskentakierrokselta.
 
-Jos kierroksella ei valita ehdokkaita, suoritetaan ehdokkaiden pudotus kohdan 4 jälkeen.
+Jos kierroksella ei valita ehdokkaita, suoritetaan ehdokkaiden pudotus ~~kohdan 4 jälkeen~~ myös kohtien 3 ja 4 välissä.
+
+Vaalijärjestystä voi tulkita, että pudotus tulisi suorittaa kohdan 4 jälkeen. p-arvon päivittäminen ei kuitenkaan vaikuta pudottamiseen. Mikäli päädytään seuraavassa kohdassa kuvattuun p-arvon laskemiseen, koodin kannalta on helpompi, jos sekä valinta että pudottaminen suoritetaan kohtien 3 ja 4 välissä.
 
 ## p-arvon laskeminen
 
