@@ -4,6 +4,10 @@ TKO-äly ry:n vuoden 2022 [äänestys- ja vaalijärjestyksen](https://www.tko-al
 
 Ohjelma on keskeneräinen eikä sitä tule käyttää äänten laskemiseen.
 
+Ohjelma on lähes valmis. Suurin puute tiettävästi on pudotusvaiheen tasapelin ratkaisu. Työlistalla on myös lyhyemmän tulostiedoston tietojen luonti.
+
+Mikäli ajat ohjelmaa omalla koneella, luo samaan kansioon README-tiedoston kanssa kansio 'vaalit'. Tällöin ohjelma saa tallennettua laskenta- ja tulosdatan.
+
 ## Havaitut ongelmat vaalijärjestyksessä
 
 Valijärjestyksessä on havaittu joitain ongelmia. Niistä on kerrottu enemmän [täällä](dokumentaatio/havaitut_ongelmat.md).
