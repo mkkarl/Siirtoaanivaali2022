@@ -61,6 +61,14 @@ class Ehdokkaat:
 
         return kierroksella_valitut
     
+    def paatetaan_kierros(self, aanikynnys):
+        for nro in self.__ehdokkaat:
+            ehdokas = self.__ehdokkaat[nro]
+            if not ehdokas.suhdeluku_oikea(aanikynnys):
+                return False
+        
+        return True
+    
     def __str__(self) -> str:
         mjono = "Ehdokkaat\n"
         for ehdokas in self.__ehdokkaat:

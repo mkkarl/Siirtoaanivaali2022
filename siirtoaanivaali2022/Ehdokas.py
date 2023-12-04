@@ -40,6 +40,16 @@ class Ehdokas:
     def hae_kokonaisaanimaara(self):
         return self.__kokonaisaanimaara
     
+    def suhdeluku_oikea(self, aanikynnys):
+        if self.__status != "valittu":
+            return True
+        elif self.__status == "valittu":
+            suhdeluku = aanikynnys / self.__kokonaisaanimaara
+            if suhdeluku >= 0.99999 and suhdeluku <= 1.00001:
+                return True
+            
+        return False
+    
     def __str__(self) -> str:
         return f"Ehdokas {self.__nro}\t{self.__nimi}\täänimäärä {self.__kokonaisaanimaara}\tp: {self.__p}\tstatus: {self.__status}"
     

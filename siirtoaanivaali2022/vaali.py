@@ -87,4 +87,7 @@ class Vaali:
     
     def valitse_loput_toiveikkaat(self):
         return self.__ehdokkaat.valitse_loput_toiveikkaat()
+    
+    def paatetaan_kierros(self):
+        return self.__ehdokkaat.paatetaan_kierros(self.__aanikynnys)
 
