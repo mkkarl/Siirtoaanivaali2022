@@ -40,6 +40,7 @@ def luo_lipukkeet(tiedosto: str, vaali : Vaali):
                 else:
                     # tallenna vaalin nimi sopivaan paikkaan
                     vaali.aseta_vaalin_nimi(rivi.strip('"'))
+                    return
 
 if __name__ == "__main__":
     vaali = Vaali()
