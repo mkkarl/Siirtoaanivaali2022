@@ -45,6 +45,7 @@ class Ehdokas:
             return True
         elif self.__status == "valittu":
             suhdeluku = aanikynnys / self.__kokonaisaanimaara
+            suhdeluku = round(suhdeluku, 5)
             if suhdeluku >= 0.99999 and suhdeluku <= 1.00001:
                 return True
             
