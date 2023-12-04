@@ -29,9 +29,12 @@ def luo_lipukkeet(tiedosto: str, vaali : Vaali):
                     ehdokaslista = []
                     for ehdokas_nro in osat[1:-1]:
                         ehdokaslista.append(vaali.hae_ehdokkaat().hae_ehdokas(int(ehdokas_nro)))
-                    # luo lipuke listaan
-                    # luo lipukerivit lipukkeelle
-                    vaali.hae_lipukkeet().lisaa_lipuke(Lipuke(ehdokaslista))
+
+                    if len(ehdokaslista) == 0:
+                        vaali.lisaa_hylatty_aani()
+                    else:
+                        # luo lipuke
+                        vaali.hae_lipukkeet().lisaa_lipuke(Lipuke(ehdokaslista))
             elif tila == "ehdokkaat":
                 if laskuri <= ehdokas_lkm:
                     # lisää ehdokkaalle nimi

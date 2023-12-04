@@ -8,6 +8,7 @@ class Vaali:
         self.__nimi = ""
         self.__ehdokkaat = Ehdokkaat()
         self.__lipukkeet = Lipukkeet()
+        self.__hylatyt_aanet = 0
         self.__valittavien_lkm = 0
         self.__aanihukka = 0
         self.__aanikynnys = 0
@@ -31,6 +32,12 @@ class Vaali:
 
     def hae_lipukkeet(self):
         return self.__lipukkeet
+    
+    def lisaa_hylatty_aani(self):
+        self.__hylatyt_aanet += 1
+
+    def hae_hylatyt_aanet(self):
+        return self.__hylatyt_aanet
 
     def aseta_valittavien_lkm(self, valittavien_lkm : int):
         self.__valittavien_lkm = valittavien_lkm

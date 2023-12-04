@@ -30,7 +30,8 @@ def suorita_vaali(tiedosto : str):
 
     mjono = vaali.hae_vaalin_nimi() + "\n"
     mjono += aika.strftime("%x %X") + "\n"
-    mjono += f"Ehdokkaita: {vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm()}\tValitaan: {vaali.hae_valittavien_lkm()}\n\n"
+    mjono += f"Ehdokkaita: {vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm()}\tValitaan: {vaali.hae_valittavien_lkm()}\n"
+    mjono += f"Hyväksyttyjä ääniä: {vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm()}\tHylättyjä ääniä: {vaali.hae_hylatyt_aanet()}\tÄäniä yhteensä: {vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() + vaali.hae_hylatyt_aanet()}\n\n"
     mjono += str(vaali.hae_ehdokkaat()) + "\n\n"
 
     print(mjono)
