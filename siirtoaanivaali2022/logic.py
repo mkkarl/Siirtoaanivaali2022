@@ -49,7 +49,7 @@ def suorita_vaali(tiedosto : str):
     kierros = 1
     uusi_kierros = True
 
-    while pudotettavien_lkm > 0:
+    while pudotettavien_lkm > 0 and vaali.hae_valittujen_lkm() < vaali.hae_valittavien_lkm():
 
         valitut_kierroksen_alussa = vaali.hae_valittujen_lkm()
 

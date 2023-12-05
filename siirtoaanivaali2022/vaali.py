@@ -77,11 +77,14 @@ class Vaali:
         self.__aanihukka = round(self.__lipukkeet.aanihukka(), 5)
 
     def paivita_aanikynnys(self):
-        aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm
-        aanikynnys *= 100000
-        aanikynnys = math.ceil(aanikynnys)
-        aanikynnys /= 100000
-        self.__aanikynnys = aanikynnys
+        if self.__valittavien_lkm == 1:
+            self.__aanikynnys = self.__lipukkeet.hyvaksytyt_aanet_lkm() / 2
+        else:
+            aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm
+            aanikynnys *= 100000
+            aanikynnys = math.ceil(aanikynnys)
+            aanikynnys /= 100000
+            self.__aanikynnys = aanikynnys
 
     def paivita_p_arvot(self):
         self.__ehdokkaat.paivita_p(self.__aanikynnys)
