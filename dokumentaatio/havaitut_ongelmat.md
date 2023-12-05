@@ -1,6 +1,6 @@
 # Havaitut ongelmat TKO-äly ry:n vaalijärjestyksessa
 
-Ohjelman koodaamisen yhteydessä on havaittu joitakin ongelmia [vaalijärjetyksessä](https://www.tko-aly.fi/attachments/files/324/2022-12-28-_nestys-ja-vaalij_rjestys.pdf?1672444809). Vaalijärjestys on kirjoitettu pohjautuen [Meekin metodiin (Meek's method)](https://svn.apache.org/repos/asf/steve/trunk/stv_background/meekm.pdf), mutta äänikynnyksenä on käytetty [Droopin äänikynnyksen (Droop quota)](https://en.wikipedia.org/wiki/Droop_quota) sijasta [Haren äänikynnystä (Hare quota)](https://en.wikipedia.org/wiki/Hare_quota). Vaalijärjestystä kirjoitettaessa ei kuitenkaan ole suoritettu kunnollista testausta ääntenlaskennan kannalta ja vvalijärjestykseen on päätynyt joitakin ongelmakohtia siihen liittyen. Tällä sivulla kerrotaan ongelmista ja niiden ratkaisuehdtuksista.
+Ohjelman koodaamisen yhteydessä on havaittu joitakin ongelmia [vaalijärjetyksessä](https://www.tko-aly.fi/attachments/files/324/2022-12-28-_nestys-ja-vaalij_rjestys.pdf?1672444809). Vaalijärjestys on kirjoitettu pohjautuen [Meekin metodiin (Meek's method)](https://svn.apache.org/repos/asf/steve/trunk/stv_background/meekm.pdf), mutta äänikynnyksenä on käytetty [Droopin äänikynnyksen (Droop quota)](https://en.wikipedia.org/wiki/Droop_quota) sijasta [Haren äänikynnystä (Hare quota)](https://en.wikipedia.org/wiki/Hare_quota). Lisäksi pudotusvaiheen tasatilanteen ratkaiseminen suoritetaan vaalijärjestyksen mukaan tutkimalla pudotusuhan alla olevien ehdokkaiden keskinäisiä suosituimmuus-eroja, eikä pelkällä arvalla, kuten Meekin metodissa. Vaalijärjestystä kirjoitettaessa ei kuitenkaan ole suoritettu kunnollista testausta ääntenlaskennan kannalta ja vaalijärjestykseen on päätynyt joitakin ongelmakohtia siihen liittyen. Tällä sivulla kerrotaan ongelmista ja niiden ratkaisuehdtuksista.
 
 ## Ehdokkaiden valinnan ja pudotuksen ajankohta
 
@@ -29,3 +29,9 @@ Vaalijärjestyksen mukaan ehdokkaan tulee *ylittää* äänikynnys tullakseen va
 niin ainakin viimeinen valittavissa oleva ehdokas ei ylitä äänikynnystä, vaan saavuttaa sen juuri ja juuri tai jää hieman sen alapuolelle riippuen pyöristyksistä. Mikäli p-arvon laskemiseen ei tehdä korjausta, ongelma on vielä huomattavampi.
 
 **Ratkaisuehdotus:** Kun ehdokkaiden valitsemisten ja pudottamisten jälkeen jäljellä on enää vapaiden paikkojen verran toiveikkaita ehdokkaita, valitaan jäljellä olevat toiveikkaat ehdokkaat.
+
+## Yhden ehdokkaan valinta
+
+Yhden ehdokkaan valinnassa äänikynnyksessä ei ole lainkaan huomioitu äänihukkaa. Tällöin on mahdollista päätyä tilanteeseen, että kukaan ehdokkaista ei ylitä äänikynnystä. Esimerkki tällaisesta tilanteesta on vaali, jossa on 10 äänestäjää ja kolme ehdokasta, A, B ja C. Ehdokkaista A saa neljä ääntä ja B sekä C 3 ääntä kumpainenkin ensimmäisellä kierroksella. Yhdellekään lipukkeelle ole asetettu toista ja kolmatta vaihtoehtoa. Tällöin ehdokkaat B ja C pudotetaan molemmat ja jäljelle jää A, joka on saanut vain 4 ääntä, mutta äänikynnys on 5.
+
+**Ratkaisuehdotus:** Tehdään kuten edellisessäkin kohdassa, eli jos ketään ei ole valittu aiemmin ja pudotusten jälkeen on ehdolla enää yksi ehdokas, niin valitaan kyseinen ehdokas.
