@@ -40,6 +40,7 @@ class Ehdokkaat:
     def pudota_ehdokas(self, maksimi):
         minimi = maksimi
         pudotettava = None
+        vertailtavat = []
         for nro in self.__ehdokkaat:
             ehdokas = self.__ehdokkaat[nro]
             aanimaara = ehdokas.hae_kokonaisaanimaara()
@@ -47,8 +48,22 @@ class Ehdokkaat:
             if ehdokas.hae_status() == "toiveikas" and aanimaara < minimi:
                 minimi = aanimaara
                 pudotettava = ehdokas
+                vertailtavat = []
+                vertailtavat.append(ehdokas.hae_nro())
+            elif ehdokas.hae_status() == "toiveikas" and aanimaara == minimi:
+                vertailtavat.append(ehdokas.hae_nro())
 
-        return pudotettava.pudota()
+        if len(vertailtavat) == 1:
+            # pudotettava.pudota()
+            return (True, pudotettava.pudota())
+        else:
+            return (False, vertailtavat)
+
+    def pudota_ylimaaraiset_ehdokkaat(self, vertailtavat):
+        for nro in self.__ehdokkaat:
+            ehdokas = self.__ehdokkaat[nro]
+            if ehdokas.hae_nro() not in vertailtavat:
+                ehdokas.pudota()
     
     def valitse_loput_toiveikkaat(self):
         kierroksella_valitut = []
@@ -68,6 +83,12 @@ class Ehdokkaat:
                 return False
         
         return True
+    
+    def hae_toiveikas(self):
+        for nro in self.__ehdokkaat:
+            ehdokas = self.__ehdokkaat[nro]
+            if ehdokas.hae_status() == "toiveikas":
+                return ehdokas.hae_nro()
     
     def __str__(self) -> str:
         mjono = "Ehdokkaat\n"

@@ -77,6 +77,7 @@ class Vaali:
         self.__aanihukka = round(self.__lipukkeet.aanihukka(), 5)
 
     def paivita_aanikynnys(self):
+        # TODO: äänikynnys pudotusvaalissa
         if self.__valittavien_lkm == 1:
             self.__aanikynnys = self.__lipukkeet.hyvaksytyt_aanet_lkm() / 2
         else:

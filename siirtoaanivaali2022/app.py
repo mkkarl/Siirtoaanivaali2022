@@ -1,5 +1,7 @@
-import logic
+from logic import Aantenlasku
 
 tiedosto = input("Anna lipukedatan tiedostonimi: ")
 
-logic.suorita_vaali(tiedosto)
+aantenlasku = Aantenlasku()
+
+aantenlasku.suorita_vaali(tiedosto)
