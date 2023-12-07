@@ -46,6 +46,21 @@ class Aantenlasku:
             tiedosto.write(mjono)
             tiedosto.write(f"Pudotettavien ehdokkaiden lkm: {pudotettavien_lkm}\n\n")
 
+    def tallenna_uusi_kierros(self, kierros, valitut_kierroksen_alussa):
+        
+        print(f"Kierros {kierros}")
+
+        with open(self.tulokset, "a") as tiedosto:
+            mjono = f"Kierros {kierros}"
+            tiedosto.write(f"\n{mjono}\n")
+            tiedosto.write("=" * len(mjono) + "\n\n")
+
+        with open(self.laskenta, "a") as tiedosto:
+            mjono = f"Kierros {kierros}"
+            tiedosto.write(f"\n{mjono}\n")
+            tiedosto.write("=" * len(mjono) + "\n\n")
+            tiedosto.write(f"Valittujen lkm kierroksen alussa: {valitut_kierroksen_alussa}\n\n")
+
     # vaihe 1
     def laske_aanet(self):
 
@@ -101,19 +116,7 @@ class Aantenlasku:
             valitut_kierroksen_alussa = self.__vaali.hae_valittujen_lkm()
 
             if uusi_kierros:
-                print(f"Kierros {kierros}")
-
-                with open(self.tulokset, "a") as tiedosto:
-                    mjono = f"Kierros {kierros}"
-                    tiedosto.write(f"\n{mjono}\n")
-                    tiedosto.write("=" * len(mjono) + "\n\n")
-
-                with open(self.laskenta, "a") as tiedosto:
-                    mjono = f"Kierros {kierros}"
-                    tiedosto.write(f"\n{mjono}\n")
-                    tiedosto.write("=" * len(mjono) + "\n\n")
-                    tiedosto.write(f"Valittujen lkm kierroksen alussa: {valitut_kierroksen_alussa}\n\n")
-
+                self.tallenna_uusi_kierros(kierros, valitut_kierroksen_alussa)
                 uusi_kierros = False
 
             #   1. Ehdokas:Ehdokkaat laske äänet
