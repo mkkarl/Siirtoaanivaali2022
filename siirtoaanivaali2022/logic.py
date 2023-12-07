@@ -2,6 +2,7 @@ import opavote
 from vaali import Vaali
 from datetime import datetime
 import locale
+import textwrap
 
 class Aantenlasku:
 
@@ -17,15 +18,24 @@ class Aantenlasku:
         loc = locale.setlocale(locale.LC_ALL, 'fi_FI.UTF-8')
 
         aika = datetime.now()
+        tiedostojen_aikaleima = aika.strftime('%Y%m%d-%H%M%S-%f')        
+        aikaleima = aika.strftime("%x %X")
         vaalin_nimi = self.__vaali.hae_vaalin_nimi()
-        self.tulokset = f"vaalit/{vaalin_nimi.replace(' ', '_')}_{aika.strftime('%Y%m%d-%H%M%S-%f')}_tulokset.txt"
-        self.laskenta = f"vaalit/{vaalin_nimi.replace(' ', '_')}_{aika.strftime('%Y%m%d-%H%M%S-%f')}_laskenta.txt"
 
-        mjono = vaalin_nimi + "\n"
-        mjono += aika.strftime("%x %X") + "\n"
-        mjono += f"Ehdokkaita: {self.__vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm()}\tValitaan: {self.__vaali.hae_valittavien_lkm()}\n"
-        mjono += f"Hyväksyttyjä ääniä: {self.__vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm()}\tHylättyjä ääniä: {self.__vaali.hae_hylatyt_aanet()}\tÄäniä yhteensä: {self.__vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() + self.__vaali.hae_hylatyt_aanet()}\n\n"
-        mjono += str(self.__vaali.hae_ehdokkaat()) + "\n\n"
+        self.tulokset = f"vaalit/{vaalin_nimi.replace(' ', '_')}_{tiedostojen_aikaleima}_tulokset.txt"
+        self.laskenta = f"vaalit/{vaalin_nimi.replace(' ', '_')}_{tiedostojen_aikaleima}_laskenta.txt"
+
+        ehdokkaat = self.__vaali.hae_ehdokkaat()
+        valittavat = self.__vaali.hae_valittavien_lkm()
+        hyvaksytyt = self.__vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm()
+        hylatyt = self.__vaali.hae_hylatyt_aanet()
+
+        mjono = textwrap.dedent(f"""\
+                {vaalin_nimi}
+                {aikaleima}
+                Ehdokkaita: {ehdokkaat.hae_ehdokkaiden_lkm()}\tValitaan: {valittavat}
+                Hyväksyttyjä ääniä: {hyvaksytyt}\tHylättyjä ääniä: {hylatyt}\tÄäniä yhteensä: {hyvaksytyt}\n\n""")
+        mjono += str(ehdokkaat) + "\n\n"
 
         print(mjono)
 
@@ -54,9 +64,6 @@ class Aantenlasku:
         if pudotusvaali:
             self.__vaali.aseta_valittavien_lkm = len(vertailtavat) - 1
             self.__vaali.hae_ehdokkaat().pudota_ylimaaraiset_ehdokkaat(vertailtavat)
-
-            
-
 
         pudotettavien_lkm = self.__vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm() - self.__vaali.hae_valittavien_lkm()
 
