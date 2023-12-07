@@ -22,8 +22,9 @@ class Aantenlasku:
         aikaleima = aika.strftime("%x %X")
         vaalin_nimi = self.__vaali.hae_vaalin_nimi()
 
-        self.tulokset = f"vaalit/{vaalin_nimi.replace(' ', '_')}_{tiedostojen_aikaleima}_tulokset.txt"
-        self.laskenta = f"vaalit/{vaalin_nimi.replace(' ', '_')}_{tiedostojen_aikaleima}_laskenta.txt"
+        tiedostonimen_alku = f"{vaalin_nimi.replace(' ', '_')}_{tiedostojen_aikaleima}" 
+        self.tulokset = f"vaalit/{tiedostonimen_alku}_tulokset.txt"
+        self.laskenta = f"vaalit/{tiedostonimen_alku}_laskenta.txt"
 
         ehdokkaat = self.__vaali.hae_ehdokkaat()
         valittavat = self.__vaali.hae_valittavien_lkm()
@@ -50,15 +51,15 @@ class Aantenlasku:
         
         print(f"Kierros {kierros}")
 
+        mjono = f"Kierros {kierros}"
+        merkit = "=" * len(mjono)
+        mjono = f"\n{mjono}\n{merkit}\n\n"
+
         with open(self.tulokset, "a") as tiedosto:
-            mjono = f"Kierros {kierros}"
-            tiedosto.write(f"\n{mjono}\n")
-            tiedosto.write("=" * len(mjono) + "\n\n")
+            tiedosto.write(mjono)
 
         with open(self.laskenta, "a") as tiedosto:
-            mjono = f"Kierros {kierros}"
-            tiedosto.write(f"\n{mjono}\n")
-            tiedosto.write("=" * len(mjono) + "\n\n")
+            tiedosto.write(mjono)
             tiedosto.write(f"Valittujen lkm kierroksen alussa: {valitut_kierroksen_alussa}\n\n")
 
     # vaihe 1
@@ -96,23 +97,18 @@ class Aantenlasku:
 
         kierroksella_valitut = self.__vaali.valitse_ehdokkaat()
 
+        mjono = "Kierroksella ei valittu ehdokkaita.\n\n"
+        if len(kierroksella_valitut) > 0:
+            mjono = "Kierroksella valitut ehdokkaat:\n"
+            for valittu in kierroksella_valitut:
+                mjono += valittu + "\n"
+            mjono += "\n"
+
         with open(self.tulokset, "a") as tiedosto:
-            if len(kierroksella_valitut) > 0:
-                tiedosto.write("Kierroksella valitut ehdokkaat:\n")
-                for valittu in kierroksella_valitut:
-                    tiedosto.write(valittu + "\n")
-                tiedosto.write("\n")
-            else:
-                tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
+            tiedosto.write(mjono)
 
         with open(self.laskenta, "a") as tiedosto:
-            if len(kierroksella_valitut) > 0:
-                tiedosto.write("Kierroksella valitut ehdokkaat:\n")
-                for valittu in kierroksella_valitut:
-                    tiedosto.write(valittu + "\n")
-                tiedosto.write("\n")
-            else:
-                tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
+            tiedosto.write(mjono)
 
     def pudota_ehdokkaat(self, vertailtavat):
       
@@ -211,7 +207,9 @@ class Aantenlasku:
 
                 #   Ehdokkaiden pudotus
                 if valitut_kierroksen_alussa - self.__vaali.hae_valittujen_lkm() == 0:
-                    self.pudota_ehdokkaat(vertailtavat)
+                    pudotettava_nro = self.pudota_ehdokkaat(vertailtavat)
+                    if pudotettava_nro is not None:
+                        return pudotettava_nro
                 
                 kierros += 1
                 uusi_kierros = True
