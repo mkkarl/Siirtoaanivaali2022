@@ -2,11 +2,147 @@ import opavote
 from vaali import Vaali
 from datetime import datetime
 import locale
+import textwrap
 
 class Aantenlasku:
 
     def __init__(self) -> None:
         self.__vaali = Vaali()
+        self.vaalin_nimi = self.__vaali.hae_vaalin_nimi()
+
+        # alustetaan alusta_tiedostot-funktiossa
+        self.tulokset = None
+        self.laskenta = None
+
+    def alusta_tiedostot(self):
+        loc = locale.setlocale(locale.LC_ALL, 'fi_FI.UTF-8')
+
+        aika = datetime.now()
+        tiedostojen_aikaleima = aika.strftime('%Y%m%d-%H%M%S-%f')        
+        aikaleima = aika.strftime("%x %X")
+        vaalin_nimi = self.__vaali.hae_vaalin_nimi()
+
+        tiedostonimen_alku = f"{vaalin_nimi.replace(' ', '_')}_{tiedostojen_aikaleima}" 
+        self.tulokset = f"vaalit/{tiedostonimen_alku}_tulokset.txt"
+        self.laskenta = f"vaalit/{tiedostonimen_alku}_laskenta.txt"
+
+        ehdokkaat = self.__vaali.hae_ehdokkaat()
+        valittavat = self.__vaali.hae_valittavien_lkm()
+        hyvaksytyt = self.__vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm()
+        hylatyt = self.__vaali.hae_hylatyt_aanet()
+
+        mjono = textwrap.dedent(f"""\
+                {vaalin_nimi}
+                {aikaleima}
+                Ehdokkaita: {ehdokkaat.hae_ehdokkaiden_lkm()}\tValitaan: {valittavat}
+                Hyväksyttyjä ääniä: {hyvaksytyt}\tHylättyjä ääniä: {hylatyt}\tÄäniä yhteensä: {hyvaksytyt}\n\n""")
+        mjono += str(ehdokkaat) + "\n\n"
+
+        print(mjono)
+
+        with open(self.tulokset, "w") as tiedosto:
+            tiedosto.write(mjono)
+
+        with open(self.laskenta, "w") as tiedosto:
+            tiedosto.write(mjono)
+            tiedosto.write(f"Pudotettavien ehdokkaiden lkm: {self.pudotettavien_lkm}\n\n")
+
+    def tallenna_uusi_kierros(self, kierros, valitut_kierroksen_alussa):
+        
+        print(f"Kierros {kierros}")
+
+        mjono = f"Kierros {kierros}"
+        merkit = "=" * len(mjono)
+        mjono = f"\n{mjono}\n{merkit}\n\n"
+
+        with open(self.tulokset, "a") as tiedosto:
+            tiedosto.write(mjono)
+
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write(mjono)
+            tiedosto.write(f"Valittujen lkm kierroksen alussa: {valitut_kierroksen_alussa}\n\n")
+
+    # vaihe 1
+    def laske_aanet(self):
+
+        # jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
+
+        self.__vaali.jaa_aanet_lipukkeilla()
+
+        self.__vaali.laske_aanet()
+
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write("Äänien jako ja laskenta\n\n")
+            tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
+
+    # vaihe 2
+    def laske_aanihukka(self):
+        self.__vaali.paivita_aanihukka()
+
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write(f"äänihukka: {self.__vaali.hae_aanihukka()}\n")
+
+    # vaihe 3
+    def laske_aanikynnys(self):
+        self.__vaali.paivita_aanikynnys()
+        
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write(f"äänikynnys: {self.__vaali.hae_aanikynnys()}\n\n")
+
+    def valitse_ehdokkaat(self):
+        
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write("Ehdokkaat ennen valintaa/pudotusta\n\n")
+            tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
+
+        kierroksella_valitut = self.__vaali.valitse_ehdokkaat()
+
+        mjono = "Kierroksella ei valittu ehdokkaita.\n\n"
+        if len(kierroksella_valitut) > 0:
+            mjono = "Kierroksella valitut ehdokkaat:\n"
+            for valittu in kierroksella_valitut:
+                mjono += valittu + "\n"
+            mjono += "\n"
+
+        with open(self.tulokset, "a") as tiedosto:
+            tiedosto.write(mjono)
+
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write(mjono)
+
+    def pudota_ehdokkaat(self, vertailtavat):
+      
+            pudotettava = self.__vaali.pudota_ehdokas(vertailtavat)
+
+            if (pudotettava[0]):
+                if len(pudotettava) == 3:
+                    with open(self.laskenta, "a") as tiedosto:
+                        tiedosto.write(f"Suoritettiin arvonta. Seed: {pudotettava[2]}\n\n")
+                pudotettava = pudotettava[1]
+            else:
+                with open(self.tulokset, "a") as tiedosto:
+                    tiedosto.write(f"SUORITETAAN PUDOTUSVAALI\n\n")
+
+                with open(self.laskenta, "a") as tiedosto:
+                    tiedosto.write(f"SUORITETAAN PUDOTUSVAALI\n\n")
+
+                pudotuslaskenta = Aantenlasku()
+                ehdokas_nro = pudotuslaskenta.suorita_vaali(lipukedata, True, pudotettava[1])
+                pudotettava = self.__vaali.hae_ehdokkaat().hae_ehdokas(ehdokas_nro).pudota()
+
+            if self.pudotusvaali:
+                with open(self.laskenta, "a") as tiedosto:
+                    tiedosto.write(f"Pudotetaan ehdokas: {pudotettava.hae_nimi()}\n\n")
+                return pudotettava.hae_nro()
+
+            self.pudotettavien_lkm -= 1
+
+            with open(self.tulokset, "a") as tiedosto:
+                tiedosto.write(f"Pudotetaan ehdokas: {pudotettava.hae_nimi()}\n\n")
+
+            with open(self.laskenta, "a") as tiedosto:
+                tiedosto.write(f"Pudotetaan ehdokas: {pudotettava.hae_nimi()}\n\n")
+                tiedosto.write(f"Pudotettavien ehdokkaiden lkm: {self.pudotettavien_lkm}\n\n")
 
     def suorita_vaali(self, lipukedata : str, pudotusvaali=False, vertailtavat=[]):
 
@@ -27,86 +163,39 @@ class Aantenlasku:
             self.__vaali.aseta_valittavien_lkm(len(vertailtavat) - 1)
             self.__vaali.hae_ehdokkaat().pudota_ylimaaraiset_ehdokkaat(vertailtavat)
 
-            
+        self.pudotettavien_lkm = self.__vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm() - self.__vaali.hae_valittavien_lkm()
 
-
-        pudotettavien_lkm = self.__vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm() - self.__vaali.hae_valittavien_lkm()
+        self.pudotusvaali = pudotusvaali
 
         # luo tiedostot laskennan ja tulosten tallentamiseen
 
-        loc = locale.setlocale(locale.LC_ALL, 'fi_FI.UTF-8')
-
-        aika = datetime.now()
-        tulokset = f"vaalit/{self.__vaali.hae_vaalin_nimi().replace(' ', '_')}_{aika.strftime('%Y%m%d-%H%M%S-%f')}_tulokset.txt"
-        laskenta = f"vaalit/{self.__vaali.hae_vaalin_nimi().replace(' ', '_')}_{aika.strftime('%Y%m%d-%H%M%S-%f')}_laskenta.txt"
-
-        mjono = self.__vaali.hae_vaalin_nimi() + "\n"
-        mjono += aika.strftime("%x %X") + "\n"
-        mjono += f"Ehdokkaita: {self.__vaali.hae_ehdokkaat().hae_ehdokkaiden_lkm()}\tValitaan: {self.__vaali.hae_valittavien_lkm()}\n"
-        mjono += f"Hyväksyttyjä ääniä: {self.__vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm()}\tHylättyjä ääniä: {self.__vaali.hae_hylatyt_aanet()}\tÄäniä yhteensä: {self.__vaali.hae_lipukkeet().hyvaksytyt_aanet_lkm() + self.__vaali.hae_hylatyt_aanet()}\n\n"
-        mjono += str(self.__vaali.hae_ehdokkaat()) + "\n\n"
-
-        print(mjono)
-
-        with open(tulokset, "w") as tiedosto:
-            tiedosto.write(mjono)
-
-        with open(laskenta, "w") as tiedosto:
-            tiedosto.write(mjono)
-            tiedosto.write(f"Pudotettavien ehdokkaiden lkm: {pudotettavien_lkm}\n\n")
-
+        self.alusta_tiedostot()
 
         # laskentakierros, toista kunnes valittuja tarpeeksi
 
         kierros = 1
         uusi_kierros = True
 
-        while pudotettavien_lkm > 0 and self.__vaali.hae_valittujen_lkm() < self.__vaali.hae_valittavien_lkm():
+        while self.pudotettavien_lkm > 0 and self.__vaali.hae_valittujen_lkm() < self.__vaali.hae_valittavien_lkm():
 
             valitut_kierroksen_alussa = self.__vaali.hae_valittujen_lkm()
 
             if uusi_kierros:
-                print(f"Kierros {kierros}")
-
-                with open(tulokset, "a") as tiedosto:
-                    mjono = f"Kierros {kierros}"
-                    tiedosto.write(f"\n{mjono}\n")
-                    tiedosto.write("=" * len(mjono) + "\n\n")
-
-                with open(laskenta, "a") as tiedosto:
-                    mjono = f"Kierros {kierros}"
-                    tiedosto.write(f"\n{mjono}\n")
-                    tiedosto.write("=" * len(mjono) + "\n\n")
-                    tiedosto.write(f"Valittujen lkm kierroksen alussa: {valitut_kierroksen_alussa}\n\n")
-
+                self.tallenna_uusi_kierros(kierros, valitut_kierroksen_alussa)
                 uusi_kierros = False
 
             #   1. Ehdokas:Ehdokkaat laske äänet
 
-            # jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
-
-            self.__vaali.jaa_aanet_lipukkeilla()
-
-            self.__vaali.laske_aanet()
-
-            with open(laskenta, "a") as tiedosto:
-                tiedosto.write("Äänien jako ja laskenta\n\n")
-                tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
+            self.laske_aanet()
 
             #   2. Lipukkeet äänihukka
 
-            self.__vaali.paivita_aanihukka()
-
-            with open(laskenta, "a") as tiedosto:
-                tiedosto.write(f"äänihukka: {self.__vaali.hae_aanihukka()}\n")
+            self.laske_aanihukka()
 
             #   3. Äänikynnys update
 
-            self.__vaali.paivita_aanikynnys()
+            self.laske_aanikynnys()
             
-            with open(laskenta, "a") as tiedosto:
-                tiedosto.write(f"äänikynnys: {self.__vaali.hae_aanikynnys()}\n\n")
-
             #   Jos kaikilla valituilla ehdokkailla suhdeluku on oikea, valitaan tai pudotetaan ehdokkaita
             #   ja siirrytään kohdan 4 jälkeen uudelle kierrokselle.
 
@@ -114,92 +203,39 @@ class Aantenlasku:
 
                 #   Ehdokkaiden valinta
 
-                with open(laskenta, "a") as tiedosto:
-                    tiedosto.write("Ehdokkaat ennen valintaa/pudotusta\n\n")
-                    tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
-
-                kierroksella_valitut = self.__vaali.valitse_ehdokkaat()
-
-                with open(tulokset, "a") as tiedosto:
-                    if len(kierroksella_valitut) > 0:
-                        tiedosto.write("Kierroksella valitut ehdokkaat:\n")
-                        for valittu in kierroksella_valitut:
-                            tiedosto.write(valittu + "\n")
-                        tiedosto.write("\n")
-                    else:
-                        tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
-
-                with open(laskenta, "a") as tiedosto:
-                    if len(kierroksella_valitut) > 0:
-                        tiedosto.write("Kierroksella valitut ehdokkaat:\n")
-                        for valittu in kierroksella_valitut:
-                            tiedosto.write(valittu + "\n")
-                        tiedosto.write("\n")
-                    else:
-                        tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
-
+                self.valitse_ehdokkaat()
 
                 #   Ehdokkaiden pudotus
-
                 if valitut_kierroksen_alussa - self.__vaali.hae_valittujen_lkm() == 0:
-                    pudotettava = self.__vaali.pudota_ehdokas(vertailtavat)
-
-                    if (pudotettava[0]):
-                        if len(pudotettava) == 3:
-                            with open(laskenta, "a") as tiedosto:
-                                tiedosto.write(f"Suoritettiin arvonta. Seed: {pudotettava[2]}\n\n")
-                        pudotettava = pudotettava[1]
-                    else:
-                        with open(tulokset, "a") as tiedosto:
-                            tiedosto.write(f"SUORITETAAN PUDOTUSVAALI\n\n")
-
-                        with open(laskenta, "a") as tiedosto:
-                            tiedosto.write(f"SUORITETAAN PUDOTUSVAALI\n\n")
-
-                        pudotuslaskenta = Aantenlasku()
-                        ehdokas_nro = pudotuslaskenta.suorita_vaali(lipukedata, True, pudotettava[1])
-                        pudotettava = self.__vaali.hae_ehdokkaat().hae_ehdokas(ehdokas_nro).pudota()
-
-
-                    if pudotusvaali:
-                        with open(laskenta, "a") as tiedosto:
-                            tiedosto.write(f"Pudotetaan ehdokas: {pudotettava.hae_nimi()}\n\n")
-                        return pudotettava.hae_nro()
-
-                    pudotettavien_lkm -= 1
-
-                    with open(tulokset, "a") as tiedosto:
-                        tiedosto.write(f"Pudotetaan ehdokas: {pudotettava.hae_nimi()}\n\n")
-
-                    with open(laskenta, "a") as tiedosto:
-                        tiedosto.write(f"Pudotetaan ehdokas: {pudotettava.hae_nimi()}\n\n")
-                        tiedosto.write(f"Pudotettavien ehdokkaiden lkm: {pudotettavien_lkm}\n\n")
-
+                    pudotettava_nro = self.pudota_ehdokkaat(vertailtavat)
+                    if pudotettava_nro is not None:
+                        return pudotettava_nro
+                
                 kierros += 1
                 uusi_kierros = True
 
                 print(f"Ehdokkaita valittu: {self.__vaali.hae_valittujen_lkm()}/{self.__vaali.hae_valittavien_lkm()}")
-                print(f"Ehdokkaita pudottamatta: {pudotettavien_lkm}")
+                print(f"Ehdokkaita pudottamatta: {self.pudotettavien_lkm}")
 
-                with open(tulokset, "a") as tiedosto:
+                with open(self.tulokset, "a") as tiedosto:
                     tiedosto.write("Ehdokkaat kierroksen lopussa\n\n")
                     tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
                     tiedosto.write(f"äänihukka: {self.__vaali.hae_aanihukka()}\n")
                     tiedosto.write(f"äänikynnys: {self.__vaali.hae_aanikynnys()}\n\n")
                 
-                with open(laskenta, "a") as tiedosto:
+                with open(self.laskenta, "a") as tiedosto:
                     tiedosto.write("Ehdokkaat valinnan/pudotuksen jälkeen\n\n")
                     tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
 
             else:
-                with open(laskenta, "a") as tiedosto:
+                with open(self.laskenta, "a") as tiedosto:
                     tiedosto.write("Jatketaan iterointia\n\n")
 
             #   4. Ehdokas:Ehdokkaat ehdokas.updateP
 
             self.__vaali.paivita_p_arvot()
 
-            with open(laskenta, "a") as tiedosto:
+            with open(self.laskenta, "a") as tiedosto:
                 tiedosto.write("Päivitetään p-arvot\n\n")
                 tiedosto.write("Ehdokkaat p-arvon päivityksen jälkeen\n\n")
                 tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
@@ -207,7 +243,7 @@ class Aantenlasku:
 
         # pudotusvaalissa viimeisen toiveikkaan ehdokkaan valinta pudotettavaksi
         
-        if pudotusvaali and self.__vaali.hae_valittujen_lkm() == self.__vaali.hae_valittavien_lkm():
+        if self.pudotusvaali and self.__vaali.hae_valittujen_lkm() == self.__vaali.hae_valittavien_lkm():
             return self.__vaali.hae_ehdokkaat().hae_toiveikas().hae_nro()
 
         # Jäljellä olevien toiveikkaiden ehdokkaiden valinta
@@ -216,7 +252,7 @@ class Aantenlasku:
             print("Valitaan loput toiveikkaat ehdokkaat")
             valitut = self.__vaali.valitse_loput_toiveikkaat()
 
-            with open(tulokset, "a") as tiedosto:
+            with open(self.tulokset, "a") as tiedosto:
                 mjono = "Valitaan loput toiveikkaat ehdokkaat"
                 tiedosto.write(f"\n{mjono}\n")
                 tiedosto.write("=" * len(mjono) + "\n\n")
@@ -224,7 +260,7 @@ class Aantenlasku:
                 for valittu in valitut:
                     tiedosto.write(valittu + "\n")
 
-            with open(laskenta, "a") as tiedosto:
+            with open(self.laskenta, "a") as tiedosto:
                 mjono = "Valitaan loput toiveikkaat ehdokkaat"
                 tiedosto.write(f"\n{mjono}\n")
                 tiedosto.write("=" * len(mjono) + "\n\n")
@@ -234,7 +270,7 @@ class Aantenlasku:
 
         # Vaalin lopputulos
 
-        with open(tulokset, "a") as tiedosto:
+        with open(self.tulokset, "a") as tiedosto:
             mjono = "VAALIN TULOS"
             tiedosto.write(f"\n{mjono}\n")
             tiedosto.write("=" * len(mjono) + "\n\n")
@@ -244,7 +280,7 @@ class Aantenlasku:
             for valittu in valitut:
                 tiedosto.write(valittu + "\n")
 
-        with open(laskenta, "a") as tiedosto:
+        with open(self.laskenta, "a") as tiedosto:
             mjono = "VAALIN TULOS"
             tiedosto.write(f"\n{mjono}\n")
             tiedosto.write("=" * len(mjono) + "\n\n")
