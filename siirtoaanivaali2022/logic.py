@@ -88,6 +88,32 @@ class Aantenlasku:
         with open(self.laskenta, "a") as tiedosto:
             tiedosto.write(f"äänikynnys: {self.__vaali.hae_aanikynnys()}\n\n")
 
+    def valitse_ehdokkaat(self):
+        
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write("Ehdokkaat ennen valintaa/pudotusta\n\n")
+            tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
+
+        kierroksella_valitut = self.__vaali.valitse_ehdokkaat()
+
+        with open(self.tulokset, "a") as tiedosto:
+            if len(kierroksella_valitut) > 0:
+                tiedosto.write("Kierroksella valitut ehdokkaat:\n")
+                for valittu in kierroksella_valitut:
+                    tiedosto.write(valittu + "\n")
+                tiedosto.write("\n")
+            else:
+                tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
+
+        with open(self.laskenta, "a") as tiedosto:
+            if len(kierroksella_valitut) > 0:
+                tiedosto.write("Kierroksella valitut ehdokkaat:\n")
+                for valittu in kierroksella_valitut:
+                    tiedosto.write(valittu + "\n")
+                tiedosto.write("\n")
+            else:
+                tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
+
     def suorita_vaali(self, lipukedata : str, pudotusvaali=False, vertailtavat=[]):
 
         # luo vaali
@@ -145,30 +171,7 @@ class Aantenlasku:
 
                 #   Ehdokkaiden valinta
 
-                with open(self.laskenta, "a") as tiedosto:
-                    tiedosto.write("Ehdokkaat ennen valintaa/pudotusta\n\n")
-                    tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
-
-                kierroksella_valitut = self.__vaali.valitse_ehdokkaat()
-
-                with open(self.tulokset, "a") as tiedosto:
-                    if len(kierroksella_valitut) > 0:
-                        tiedosto.write("Kierroksella valitut ehdokkaat:\n")
-                        for valittu in kierroksella_valitut:
-                            tiedosto.write(valittu + "\n")
-                        tiedosto.write("\n")
-                    else:
-                        tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
-
-                with open(self.laskenta, "a") as tiedosto:
-                    if len(kierroksella_valitut) > 0:
-                        tiedosto.write("Kierroksella valitut ehdokkaat:\n")
-                        for valittu in kierroksella_valitut:
-                            tiedosto.write(valittu + "\n")
-                        tiedosto.write("\n")
-                    else:
-                        tiedosto.write("Kierroksella ei valittu ehdokkaita.\n\n")
-
+                self.valitse_ehdokkaat()
 
                 #   Ehdokkaiden pudotus
 
