@@ -12,6 +12,7 @@ class Vaali:
         self.__valittavien_lkm = 0
         self.__aanihukka = 0
         self.__aanikynnys = 0
+        self.__valitaan_yksi = False
 
     # muuttujien käsittely
 
@@ -58,6 +59,9 @@ class Vaali:
     def hae_aanikynnys(self):
         return self.__aanikynnys
     
+    def set_valitaan_yksi(self):
+        self.__valitaan_yksi = True
+    
     # metodit
     
     def jaa_aanet_lipukkeilla(self):
@@ -78,7 +82,7 @@ class Vaali:
 
     def paivita_aanikynnys(self):
         # TODO: äänikynnys pudotusvaalissa
-        if self.__valittavien_lkm == 1:
+        if self.__valitaan_yksi:
             self.__aanikynnys = self.__lipukkeet.hyvaksytyt_aanet_lkm() / 2
         else:
             aanikynnys = (self.__lipukkeet.hyvaksytyt_aanet_lkm() - self.__aanihukka) / self.__valittavien_lkm

@@ -19,6 +19,8 @@ def luo_lipukkeet(tiedosto: str, vaali : Vaali):
                 # lisää ehdokkaat listaan
                 vaali.hae_ehdokkaat().lisaa_ehdokkaat(ehdokas_lkm)
                 vaali.aseta_valittavien_lkm(int(osat[1]))
+                if vaali.hae_valittavien_lkm == 1:
+                    vaali.set_valitaan_yksi()
                 tila = "lipukkeet"
             elif tila == "lipukkeet":
                 osat = rivi.split(" ")
