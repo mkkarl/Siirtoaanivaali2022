@@ -142,9 +142,12 @@ class Aantenlasku:
                 #   Ehdokkaiden pudotus
 
                 if valitut_kierroksen_alussa - self.__vaali.hae_valittujen_lkm() == 0:
-                    pudotettava = self.__vaali.pudota_ehdokas()
+                    pudotettava = self.__vaali.pudota_ehdokas(vertailtavat)
 
                     if (pudotettava[0]):
+                        if len(pudotettava) == 3:
+                            with open(laskenta, "a") as tiedosto:
+                                tiedosto.write(f"Suoritettiin arvonta. Seed: {pudotettava[2]}\n\n")
                         pudotettava = pudotettava[1]
                     else:
                         with open(tulokset, "a") as tiedosto:
@@ -155,7 +158,7 @@ class Aantenlasku:
 
                         pudotuslaskenta = Aantenlasku()
                         ehdokas_nro = pudotuslaskenta.suorita_vaali(lipukedata, True, pudotettava[1])
-                        pudotettava = self.__vaali.hae_ehdokkaat().hae_ehdokas(ehdokas_nro)
+                        pudotettava = self.__vaali.hae_ehdokkaat().hae_ehdokas(ehdokas_nro).pudota()
 
 
                     if pudotusvaali:

@@ -1,4 +1,6 @@
 from Ehdokas import Ehdokas
+from datetime import datetime
+import random
 
 class Ehdokkaat:
 
@@ -37,7 +39,7 @@ class Ehdokkaat:
 
         return kierroksella_valitut
     
-    def pudota_ehdokas(self, maksimi):
+    def pudota_ehdokas(self, maksimi, vanhat_vertailtavat=[]):
         minimi = maksimi
         pudotettava = None
         vertailtavat = []
@@ -56,6 +58,13 @@ class Ehdokkaat:
         if len(vertailtavat) == 1:
             # pudotettava.pudota()
             return (True, pudotettava.pudota())
+        elif len(vanhat_vertailtavat) == len(vertailtavat): #todellinen tasapeli
+            time = datetime.now()
+            seed = int(time.strftime("%f")) % 256
+            random.seed(seed)
+            valittava = random.randint(0, len(vertailtavat)) - 1
+            pudotettava = self.__ehdokkaat[vertailtavat[valittava]]
+            return (True, pudotettava.pudota(), seed)
         else:
             return (False, vertailtavat)
 

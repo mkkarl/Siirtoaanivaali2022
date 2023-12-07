@@ -93,8 +93,8 @@ class Vaali:
     def valitse_ehdokkaat(self):
         return self.__ehdokkaat.valitse_ehdokkaat(self.__aanikynnys)
 
-    def pudota_ehdokas(self):
-        return self.__ehdokkaat.pudota_ehdokas(self.__lipukkeet.hyvaksytyt_aanet_lkm() + 1)
+    def pudota_ehdokas(self, vertailtavat):
+        return self.__ehdokkaat.pudota_ehdokas(self.__lipukkeet.hyvaksytyt_aanet_lkm() + 1, vertailtavat)
     
     def valitse_loput_toiveikkaat(self):
         return self.__ehdokkaat.valitse_loput_toiveikkaat()
