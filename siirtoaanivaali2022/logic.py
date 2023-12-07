@@ -24,7 +24,7 @@ class Aantenlasku:
         # print(f"äänikynnys: {vaali.hae_aanikynnys()}")
 
         if pudotusvaali:
-            self.__vaali.aseta_valittavien_lkm = len(vertailtavat) - 1
+            self.__vaali.aseta_valittavien_lkm(len(vertailtavat) - 1)
             self.__vaali.hae_ehdokkaat().pudota_ylimaaraiset_ehdokkaat(vertailtavat)
 
             
