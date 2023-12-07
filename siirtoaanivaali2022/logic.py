@@ -81,6 +81,13 @@ class Aantenlasku:
         with open(self.laskenta, "a") as tiedosto:
             tiedosto.write(f"äänihukka: {self.__vaali.hae_aanihukka()}\n")
 
+    # vaihe 3
+    def laske_aanikynnys(self):
+        self.__vaali.paivita_aanikynnys()
+        
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write(f"äänikynnys: {self.__vaali.hae_aanikynnys()}\n\n")
+
     def suorita_vaali(self, lipukedata : str, pudotusvaali=False, vertailtavat=[]):
 
         # luo vaali
@@ -129,11 +136,8 @@ class Aantenlasku:
 
             #   3. Äänikynnys update
 
-            self.__vaali.paivita_aanikynnys()
+            self.laske_aanikynnys()
             
-            with open(self.laskenta, "a") as tiedosto:
-                tiedosto.write(f"äänikynnys: {self.__vaali.hae_aanikynnys()}\n\n")
-
             #   Jos kaikilla valituilla ehdokkailla suhdeluku on oikea, valitaan tai pudotetaan ehdokkaita
             #   ja siirrytään kohdan 4 jälkeen uudelle kierrokselle.
 
