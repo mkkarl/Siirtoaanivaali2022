@@ -46,7 +46,7 @@ class Aantenlasku:
             tiedosto.write(mjono)
             tiedosto.write(f"Pudotettavien ehdokkaiden lkm: {pudotettavien_lkm}\n\n")
 
-    # vaihe 1.
+    # vaihe 1
     def laske_aanet(self):
 
         # jaa ääni lipukkeella ehdokkaille ennen äänien hakemista
@@ -58,6 +58,13 @@ class Aantenlasku:
         with open(self.laskenta, "a") as tiedosto:
             tiedosto.write("Äänien jako ja laskenta\n\n")
             tiedosto.write(str(self.__vaali.hae_ehdokkaat()) + "\n\n")
+
+    # vaihe 2
+    def laske_aanihukka(self):
+        self.__vaali.paivita_aanihukka()
+
+        with open(self.laskenta, "a") as tiedosto:
+            tiedosto.write(f"äänihukka: {self.__vaali.hae_aanihukka()}\n")
 
     def suorita_vaali(self, lipukedata : str, pudotusvaali=False, vertailtavat=[]):
 
@@ -115,10 +122,7 @@ class Aantenlasku:
 
             #   2. Lipukkeet äänihukka
 
-            self.__vaali.paivita_aanihukka()
-
-            with open(self.laskenta, "a") as tiedosto:
-                tiedosto.write(f"äänihukka: {self.__vaali.hae_aanihukka()}\n")
+            self.laske_aanihukka()
 
             #   3. Äänikynnys update
 
